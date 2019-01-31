@@ -14,22 +14,23 @@
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Фамилия</th>
-                        <th>Имя</th>
-                        <th>Отчество</th>
-                        <th>Возраст</th>
+                        <th><p>ID</p></th>
+                        <th><p>Фамилия</p></th>
+                        <th><p>Имя</p></th>
+                        <th><p>Отчество</p></th>
+                        <th><p>Возраст</p></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach(var emp in Model)
                     {
                     <tr>
-                        <th>@emp.Id</th>
-                        <th>@emp.SecondName</th>
-                        <th>@emp.FirstName</th>
-                        <th>@emp.Patronymic</th>
-                        <th>@emp.Age</th>
+                        <td>@emp.Id</td>
+                        <td>@emp.SecondName</td>
+                        <td>@emp.FirstName</td>
+                        <td>@emp.Patronymic</td>
+                        <td>@emp.Age</td>
+                        <td>@Html.ActionLink("Детали", "Details", new { id = emp.Id })</td>
                     </tr>
                     }
                 </tbody>
