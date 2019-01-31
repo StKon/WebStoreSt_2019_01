@@ -13,7 +13,7 @@ namespace WebStore.Controllers
         private static List<EmployeeViewModel> _employee = new List<EmployeeViewModel>
         {
             new EmployeeViewModel {Id = 1, FirstName = "Иван", SecondName = "Иванов", Patronymic = "Иванович", Age = 22},
-            new EmployeeViewModel {Id = 2, FirstName = "Владислав", SecondName = "Петров", Patronymic = "Иванович", Age = 35}
+            new EmployeeViewModel {Id = 2, FirstName = "Владислав", SecondName = "Петров", Patronymic = "Иванович", Age = 35},
             new EmployeeViewModel {Id = 3, FirstName = "Станислав", SecondName = "Сидоров", Patronymic = "Петрович", Age = 53}
         };
 
@@ -26,7 +26,8 @@ namespace WebStore.Controllers
             //return NotFound();
             //return Json();
             //return PartialView();
-            return View();
+            //return View();
+            return View(_employee);  //передаем модель
         }
     }
 }

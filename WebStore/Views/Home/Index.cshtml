@@ -1,4 +1,6 @@
 ﻿
+@model IEnumerable<WebStore.Models.EmployeeViewModel>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +8,33 @@
     <title>WebStore app</title>
 </head>
 <body>
-    <p>Представление раз</p>
+    <section>
+        <div>
+            <h3>Сотрудники</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Фамилия</th>
+                        <th>Имя</th>
+                        <th>Отчество</th>
+                        <th>Возраст</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var emp in Model)
+                    {
+                    <tr>
+                        <th>@emp.Id</th>
+                        <th>@emp.SecondName</th>
+                        <th>@emp.FirstName</th>
+                        <th>@emp.Patronymic</th>
+                        <th>@emp.Age</th>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
 </body>
 </html>
