@@ -41,8 +41,9 @@ namespace WebStore.Controllers
         /// <returns></returns>
         public IActionResult Details(int id)
         {
-            EmployeeViewModel emp = _employee.Where(e => e.Id == id).FirstOrDefault();
-
+            //EmployeeViewModel emp = _employee.Where(e => e.Id == id).FirstOrDefault();
+            EmployeeViewModel emp = _employee.FirstOrDefault(e => e.Id == id);
+            if (emp is null) return NotFound();
             return View(emp);
         }
     }
