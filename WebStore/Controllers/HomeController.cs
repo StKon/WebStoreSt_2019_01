@@ -17,6 +17,10 @@ namespace WebStore.Controllers
             new EmployeeViewModel {Id = 3, FirstName = "Станислав", SecondName = "Сидоров", Patronymic = "Петрович", Age = 53, BirthDate = new DateTime(1966, 1, 28), DateWork = new DateTime(2010, 10, 2)}
         };
 
+        /// <summary>
+        /// Вывод списка сотрудников
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             
@@ -30,10 +34,16 @@ namespace WebStore.Controllers
             return View(_employee);  //передаем модель
         }
 
+        /// <summary>
+        /// Просмотр карточки сотрудника
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult Details(int id)
         {
-            EmployeeViewModel emp = _employee.Where(e => e.Id == id).FirstOrDefault();
-
+            //EmployeeViewModel emp = _employee.Where(e => e.Id == id).FirstOrDefault();
+            EmployeeViewModel emp = _employee.FirstOrDefault(e => e.Id == id);
+            if (emp is null) return NotFound();
             return View(emp);
         }
     }
