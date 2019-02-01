@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace WebStore.Models
 {
+    /// <summary>
+    /// Модель сотрудника
+    /// </summary>
     public class EmployeeViewModel
     {
         public int Id { get; set; }
