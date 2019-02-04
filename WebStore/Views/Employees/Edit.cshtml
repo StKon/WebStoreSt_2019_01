@@ -1,0 +1,86 @@
+﻿@model WebStore.Models.EmployeeViewModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Редактирование Сотрудника";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+
+    <h4>Сотрудник</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="col-md-2 control-label">Id</label>
+                    <div class="col-md-10">
+                        <input asp-for="Id" class="form-control" />
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label">Имя</label>
+                    <div class="col-md-10">
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SecondName" class="control-label">Фамилия</label>
+                    <div class="col-md-10">
+                        <input asp-for="SecondName" class="form-control" />
+                        <span asp-validation-for="SecondName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Patronymic" class="control-label">Отчество</label>
+                    <div class="col-md-10">
+                        <input asp-for="Patronymic" class="form-control" />
+                        <span asp-validation-for="Patronymic" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Age" class="control-label">Возраст</label>
+                    <div class="col-md-10">
+                        <input asp-for="Age" class="form-control" />
+                        <span asp-validation-for="Age" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BirthDate" class="control-label">Дата рождения</label>
+                    <div class="col-md-10">
+                        @*<input asp-for="BirthDate" class="form-control" />*@
+                        @*<span asp-validation-for="BirthDate" class="text-danger"></span>*@
+                        @Html.TextBoxFor(m => m.BirthDate, "{0:d}", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateWork" class="control-label">Дата устройства на работу</label>
+                    <div class="col-md-10">
+                        @*<input asp-for="DateWork" asp-format="{0:d}" class="form-control" />*@
+                        @*<span asp-validation-for="DateWork" class="text-danger"></span>*@
+                        @Html.TextBoxFor(m => m.DateWork, "{0:d}", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Сохранить" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Список Сотрудников</a>
+    </div>
+
+</body>
+</html>

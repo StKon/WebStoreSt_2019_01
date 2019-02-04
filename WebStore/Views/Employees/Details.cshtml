@@ -1,11 +1,16 @@
 ﻿
 @model WebStore.Models.EmployeeViewModel
 
+@{
+    Layout = null;
+    ViewData["Title"] = "Карточка Сотрудника";
+}
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" charset="utf-8" />
-    <title>Employee</title>
+    <title>@ViewData["Title"]</title>
 </head>
 <body>
     <section>

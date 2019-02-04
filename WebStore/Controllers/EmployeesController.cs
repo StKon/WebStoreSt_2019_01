@@ -46,5 +46,62 @@ namespace WebStore.Controllers
             if (emp is null) return NotFound();
             return View(emp);
         }
+
+        /// <summary>
+        /// Редактирование карточки сотрудника
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if(id != null)
+            {
+                EmployeeViewModel emp = _employee.FirstOrDefault(e => e.Id == id);
+                if (emp != null) return View(emp);
+            }
+            return NotFound();
+        }
+
+        /// <summary>
+        /// Редактировать сотрудника
+        /// </summary>
+        /// <param name="emp"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult Edit(EmployeeViewModel emp)
+        {
+            EmployeeViewModel oldEmp = _employee.FirstOrDefault(e => e.Id == emp.Id);
+            if(oldEmp != null)
+            {
+                _employee[_employee.IndexOf(oldEmp)] = emp;
+                return RedirectToAction("Index", "Employees");
+            }
+            return NotFound();
+        }
+
+        [HttpGet]
+        [ActionName("Delete")]
+        public IActionResult DeleteEmp(int? id)
+        {
+            if (id != null)
+            {
+                EmployeeViewModel emp = _employee.FirstOrDefault(e => e.Id == id);
+                if (emp != null) return View(emp);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int? id)
+        {
+            EmployeeViewModel emp = _employee.FirstOrDefault(e => e.Id == id);
+            if (emp != null)
+            {
+                _employee.Remove(emp);
+                return RedirectToAction("Index", "Employees");
+            }
+            return NotFound();
+        }
     }
 }

@@ -1,0 +1,80 @@
+﻿@model WebStore.Models.EmployeeViewModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Удалить сотрудника";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+
+<h3>Вы хотите удалить сотрудника?</h3>
+<div>
+    <h4>Сотрудник</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.FirstName)*@
+            Имя
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.SecondName)*@
+            Фамилия
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SecondName)
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.Patronymic)*@
+            Отчество
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Patronymic)
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.Age)*@
+            Возраст
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.BirthDate)*@
+            Дата рождения
+        </dt>
+        <dd>
+            @*@Html.DisplayFor(model => model.BirthDate)*@
+            @Model.BirthDate.ToString("d")
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.DateWork)*@
+            Дата устройства на работу
+        </dt>
+        <dd>
+            @*@Html.DisplayFor(model => model.DateWork)*@
+            @Model.DateWork.ToString("d")
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="Удалить" class="btn btn-default" /> |
+        <a asp-action="Index">Список сотрудников</a>
+    </form>
+</div>
+</body>
+</html>
