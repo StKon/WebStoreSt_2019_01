@@ -1,11 +1,16 @@
 ﻿
 @model IEnumerable<WebStore.Models.EmployeeViewModel>
 
+@{
+    Layout = null;
+    ViewData["Title"] = "Сотрудники";
+}
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" charset="utf-8" />
-    <title>WebStore app</title>
+    <title>@ViewData["Title"]</title>
 </head>
 <body>
     <section>
@@ -22,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(var emp in Model)
+                    @foreach (var emp in Model)
                     {
                     <tr>
                         <td>@emp.Id</td>
@@ -30,7 +35,9 @@
                         <td>@emp.FirstName</td>
                         <td>@emp.Patronymic</td>
                         <td>@emp.Age</td>
-                        <td>@Html.ActionLink("Детали", "Details", new { id = emp.Id })</td>
+                        <td>@Html.ActionLink("Карточка", "Details","Employees",new { id = emp.Id })</td>
+                        <td>@Html.ActionLink("Редактировать", "Edit", "Employees", new { id = emp.Id })</td>
+                        <td>@Html.ActionLink("Удалить", "Delete", "Employees", new { id = emp.Id })</td>
                     </tr>
                     }
                 </tbody>
