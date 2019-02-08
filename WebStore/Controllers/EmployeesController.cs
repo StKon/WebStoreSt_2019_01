@@ -4,9 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Models;
+using WebStore.Infrastructure.Filters;
+using System.Net;
+
 
 namespace WebStore.Controllers
 {
+    //[Route("Users")]  //маршрут для всего контроллера один без [Route("Get")] не работает!!!
+    //[TestActionFilter]  //AФильтр действия к контроллеру (все методы)
+    //[ServiceFilter(typeof(TestResultFilter))]  //передаются параметры в фильтр
     public class EmployeesController : Controller
     {
         //локальный источник данных
@@ -21,6 +27,8 @@ namespace WebStore.Controllers
         /// Вывод списка сотрудников
         /// </summary>
         /// <returns></returns>
+        //[Route("Get")]           
+        //[TestActionFilter]  //AФильтр действия к методу
         public IActionResult Index()
         {
 
@@ -39,11 +47,11 @@ namespace WebStore.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Details(int id)
+        public IActionResult Details(int? id)
         {
-            //EmployeeViewModel emp = _employee.Where(e => e.Id == id).FirstOrDefault();
+            if (id is null) return BadRequest();  //параметра нет код ошибки 400
             EmployeeViewModel emp = _employee.FirstOrDefault(e => e.Id == id);
-            if (emp is null) return NotFound();
+            if (emp is null) return NotFound();  //код ошибки 404
             return View(emp);
         }
 
@@ -55,7 +63,7 @@ namespace WebStore.Controllers
         [HttpGet]
         public IActionResult Edit(int? id)
         {
-            if(id != null)
+            if (id != null)
             {
                 EmployeeViewModel emp = _employee.FirstOrDefault(e => e.Id == id);
                 if (emp != null) return View(emp);
@@ -71,13 +79,27 @@ namespace WebStore.Controllers
         [HttpPost]
         public IActionResult Edit(EmployeeViewModel emp)
         {
-            EmployeeViewModel oldEmp = _employee.FirstOrDefault(e => e.Id == emp.Id);
-            if(oldEmp != null)
+            if (!ModelState.IsValid) return View(emp);  //состояние модели
+
+            //id == 0 - добавить запись
+            if (emp.Id == 0)
             {
-                _employee[_employee.IndexOf(oldEmp)] = emp;
-                return RedirectToAction("Index", "Employees");
+                emp.Id = _employee.Max(e => e.Id) + 1;
+                _employee.Add(emp);
             }
-            return NotFound();
+            else
+            {
+                EmployeeViewModel oldEmp = _employee.FirstOrDefault(e => e.Id == emp.Id);
+                if (oldEmp is null) return NotFound();
+                _employee[_employee.IndexOf(oldEmp)] = emp;
+                //oldEmp.FirstName = emp.FirstName;
+                //oldEmp.SecondName = emp.SecondName;
+                //oldEmp.Patronymic = emp.Patronymic;
+                //oldEmp.DateWork = emp.DateWork;
+                //oldEmp.Age = emp.Age;
+                //oldEmp.BirthDate = emp.BirthDate;
+            }
+            return RedirectToAction("Index", "Employees");
         }
 
         [HttpGet]
@@ -102,6 +124,28 @@ namespace WebStore.Controllers
                 return RedirectToAction("Index", "Employees");
             }
             return NotFound();
+        }
+
+        /// <summary>
+        /// Возвращаемые результаты
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult TestAction()
+        {
+            //return new ContentResult();  //наиболее общий класс 
+            //return new EmptyResult();  //пустой результат
+            //return new FileResult();      //группа классов наследников. Передают файловую информацию
+            //return new FileContentResult(); //передает массив байт
+            //return new FileStreamResult();   //возвращает поток данных
+            //return new StatusCodeResult(404);    //возвращает статусный код
+            //return new UnauthorizedResult();    //пользователь не прошел автризацию. статусный код 401
+            //return new JsonResult();             //возвращает результат в виде json объекта
+            //return new PartialViewResult()   //частичное представление
+
+            //return new RedirectResult();  //перенаправить пользователя на другой адрес
+            //return Redirect();
+            //return new RedirectToActionResult();  //выполняет переадресацию на определенный метод контроллера
+            return null;
         }
     }
 }

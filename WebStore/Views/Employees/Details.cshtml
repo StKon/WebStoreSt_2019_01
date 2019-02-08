@@ -2,7 +2,7 @@
 @model WebStore.Models.EmployeeViewModel
 
 @{
-    Layout = null;
+    @*Layout = null;*@
     ViewData["Title"] = "Карточка Сотрудника";
 }
 
@@ -14,8 +14,9 @@
 </head>
 <body>
     <section>
-        <div>
-            <h3>Сотрудник</h3>
+        <div class="container">            
+            <h3>@ViewData["Title"]</h3>
+            @*
             <table>
                 <tr>
                     <td>ID :</td>
@@ -46,9 +47,10 @@
                     <td>@Model.DateWork.ToString("d")</td>
                 </tr>
             </table>
-        </div>
-        <div>
-            <p>@Html.ActionLink("Список Сотрудников", "Index")</p>
+            *@
+            @Html.DisplayForModel();
+            <hr />
+            <p>@Html.ActionLink("Список Сотрудников", "Index", "Employees")</p>
         </div>
     </section>
 </body>

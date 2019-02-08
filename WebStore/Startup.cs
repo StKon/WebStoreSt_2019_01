@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using WebStore.Infrastructure.Middleware;
 
 namespace WebStore
 {
@@ -45,11 +46,41 @@ namespace WebStore
             //Добавляем расширение для использования статических файлов (скрипты, html, css файлы)
             app.UseStaticFiles();
 
+            //Основной метод ручной обработки запроса
+            //app.Use(async (ctx, next) =>
+            //{
+            //    if(true)
+            //    {
+            //        await ctx.Response.WriteAsync("Ответ");
+            //    }
+            //    else
+            //       await next();
+            //});
+
+            //Обработка адреса
+            //app.Map("/TestPath", a =>
+            //{
+            //    a.Run(async ctx => await ctx.Response.WriteAsync("Test"));
+            //});
+
+            //Разновидность Map
+            //app.MapWhen(
+            //    ctx => ctx.Request.Query.ContainsKey("TestId") && ctx.Request.Query["TestId"] == "5",
+            //    a => a.Run(async ctx => await ctx.Response.WriteAsync("Test TestId = 5")));
+
+            //Свой компонент ПО
+            //app.UseMiddleware<TestMiddleware>();
+
+            //Использовать метод расширения
+            //app.UseTestMiddleware();
+
             //Добавляем обработку запросов в mvc-формате
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //app.Run(ctx => ctx.Response.WriteAsync("Hello World")); //Middleware, который завершает конвейер
 
             //var replayStr = Configuration["CustomReplayString"];
             //

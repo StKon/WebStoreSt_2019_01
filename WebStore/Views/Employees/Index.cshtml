@@ -2,7 +2,7 @@
 @model IEnumerable<WebStore.Models.EmployeeViewModel>
 
 @{
-    Layout = null;
+    @*Layout = null;*@
     ViewData["Title"] = "Сотрудники";
 }
 
@@ -14,9 +14,9 @@
 </head>
 <body>
     <section>
-        <div>
+        <div class="container">
             <h3>Сотрудники</h3>
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
                         <th><p>ID</p></th>
