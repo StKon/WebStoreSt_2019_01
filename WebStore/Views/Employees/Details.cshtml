@@ -16,8 +16,7 @@
     <section>
         <div class="container">            
             <h3>@ViewData["Title"]</h3>
-            @*
-            <table>
+            <table class="table">
                 <tr>
                     <td>ID :</td>
                     <td>@Model.Id</td>
@@ -47,8 +46,9 @@
                     <td>@Model.DateWork.ToString("d")</td>
                 </tr>
             </table>
-            *@
-            @Html.DisplayForModel();
+            
+            @*@Html.DisplayForModel()*@
+
             <hr />
             <p>@Html.ActionLink("Список Сотрудников", "Index", "Employees")</p>
         </div>
