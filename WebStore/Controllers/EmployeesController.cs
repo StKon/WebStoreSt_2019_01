@@ -7,7 +7,7 @@ using WebStore.Models;
 using WebStore.Infrastructure.Filters;
 using WebStore.Infrastructure.Interfaces;
 using System.Net;
-
+using Microsoft.AspNetCore.Mvc.Core;
 
 namespace WebStore.Controllers
 {
@@ -61,14 +61,20 @@ namespace WebStore.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
+        //[ValidateAntiForgeryToken]   //проверка запроса на достоверность
         public IActionResult Edit(int? id)
         {
-            if (id != null)
-            {
-                EmployeeViewModel emp = _employeesData.GetById((int)id);
-                if (emp != null) return View(emp);
-            }
-            return NotFound();
+            if (id is null)
+                return View(new EmployeeViewModel
+                {
+                    FirstName = "Имя",
+                    SecondName = "Фамилия",
+                    Patronymic = "Отчество"
+                });
+            
+            EmployeeViewModel emp = _employeesData.GetById((int)id);
+            if (emp is null) return NotFound();
+            return View(emp);
         }
 
         /// <summary>
