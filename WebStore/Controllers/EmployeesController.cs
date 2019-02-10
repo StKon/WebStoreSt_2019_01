@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Models;
 using WebStore.Infrastructure.Filters;
+using WebStore.Infrastructure.Interfaces;
 using System.Net;
-
+using Microsoft.AspNetCore.Mvc.Core;
 
 namespace WebStore.Controllers
 {
@@ -15,13 +16,12 @@ namespace WebStore.Controllers
     //[ServiceFilter(typeof(TestResultFilter))]  //передаются параметры в фильтр
     public class EmployeesController : Controller
     {
-        //локальный источник данных
-        private static List<EmployeeViewModel> _employee = new List<EmployeeViewModel>
+        private readonly IEmployeesData _employeesData;
+
+        public EmployeesController(IEmployeesData empData)
         {
-            new EmployeeViewModel {Id = 1, FirstName = "Иван", SecondName = "Иванов", Patronymic = "Иванович", Age = 22, BirthDate = new DateTime(1997, 7, 20), DateWork = new DateTime(2017, 6, 20)},
-            new EmployeeViewModel {Id = 2, FirstName = "Владислав", SecondName = "Петров", Patronymic = "Иванович", Age = 35, BirthDate = new DateTime(1984, 1, 23), DateWork = new DateTime(2010, 5, 23)},
-            new EmployeeViewModel {Id = 3, FirstName = "Станислав", SecondName = "Сидоров", Patronymic = "Петрович", Age = 53, BirthDate = new DateTime(1966, 1, 28), DateWork = new DateTime(2010, 10, 2)}
-        };
+            _employeesData = empData;
+        }
 
         /// <summary>
         /// Вывод списка сотрудников
@@ -39,7 +39,7 @@ namespace WebStore.Controllers
             //return Json();
             //return PartialView();
             //return View();
-            return View(_employee);  //передаем модель
+            return View(_employeesData.Get());  //передаем модель
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace WebStore.Controllers
         public IActionResult Details(int? id)
         {
             if (id is null) return BadRequest();  //параметра нет код ошибки 400
-            EmployeeViewModel emp = _employee.FirstOrDefault(e => e.Id == id);
+            EmployeeViewModel emp = _employeesData.GetById((int)id);
             if (emp is null) return NotFound();  //код ошибки 404
             return View(emp);
         }
@@ -61,14 +61,20 @@ namespace WebStore.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
+        //[ValidateAntiForgeryToken]   //проверка запроса на достоверность
         public IActionResult Edit(int? id)
         {
-            if (id != null)
-            {
-                EmployeeViewModel emp = _employee.FirstOrDefault(e => e.Id == id);
-                if (emp != null) return View(emp);
-            }
-            return NotFound();
+            if (id is null)
+                return View(new EmployeeViewModel
+                {
+                    FirstName = "Имя",
+                    SecondName = "Фамилия",
+                    Patronymic = "Отчество"
+                });
+            
+            EmployeeViewModel emp = _employeesData.GetById((int)id);
+            if (emp is null) return NotFound();
+            return View(emp);
         }
 
         /// <summary>
@@ -84,20 +90,19 @@ namespace WebStore.Controllers
             //id == 0 - добавить запись
             if (emp.Id == 0)
             {
-                emp.Id = _employee.Max(e => e.Id) + 1;
-                _employee.Add(emp);
+                _employeesData.AddNew(emp);
             }
             else
             {
-                EmployeeViewModel oldEmp = _employee.FirstOrDefault(e => e.Id == emp.Id);
+                EmployeeViewModel oldEmp = _employeesData.GetById((int)emp.Id);
                 if (oldEmp is null) return NotFound();
-                _employee[_employee.IndexOf(oldEmp)] = emp;
-                //oldEmp.FirstName = emp.FirstName;
-                //oldEmp.SecondName = emp.SecondName;
-                //oldEmp.Patronymic = emp.Patronymic;
-                //oldEmp.DateWork = emp.DateWork;
-                //oldEmp.Age = emp.Age;
-                //oldEmp.BirthDate = emp.BirthDate;
+
+                oldEmp.FirstName = emp.FirstName;
+                oldEmp.SecondName = emp.SecondName;
+                oldEmp.Patronymic = emp.Patronymic;
+                oldEmp.DateWork = emp.DateWork;
+                oldEmp.Age = emp.Age;
+                oldEmp.BirthDate = emp.BirthDate;
             }
             return RedirectToAction("Index", "Employees");
         }
@@ -108,7 +113,7 @@ namespace WebStore.Controllers
         {
             if (id != null)
             {
-                EmployeeViewModel emp = _employee.FirstOrDefault(e => e.Id == id);
+                EmployeeViewModel emp = _employeesData.GetById((int)id);
                 if (emp != null) return View(emp);
             }
             return NotFound();
@@ -117,13 +122,13 @@ namespace WebStore.Controllers
         [HttpPost]
         public IActionResult Delete(int? id)
         {
-            EmployeeViewModel emp = _employee.FirstOrDefault(e => e.Id == id);
-            if (emp != null)
-            {
-                _employee.Remove(emp);
-                return RedirectToAction("Index", "Employees");
-            }
-            return NotFound();
+            if (id is null) return BadRequest();
+
+            EmployeeViewModel emp = _employeesData.GetById((int)id);
+            if (emp is null) return NotFound();
+            
+            _employeesData.Delete((int)id);
+            return RedirectToAction("Index", "Employees");
         }
 
         /// <summary>
