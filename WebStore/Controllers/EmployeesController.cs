@@ -11,9 +11,6 @@ using Microsoft.AspNetCore.Mvc.Core;
 
 namespace WebStore.Controllers
 {
-    //[Route("Users")]  //маршрут для всего контроллера один без [Route("Get")] не работает!!!
-    //[TestActionFilter]  //AФильтр действия к контроллеру (все методы)
-    //[ServiceFilter(typeof(TestResultFilter))]  //передаются параметры в фильтр
     public class EmployeesController : Controller
     {
         private readonly IEmployeesData _employeesData;
@@ -27,18 +24,8 @@ namespace WebStore.Controllers
         /// Вывод списка сотрудников
         /// </summary>
         /// <returns></returns>
-        //[Route("Get")]           
-        //[TestActionFilter]  //AФильтр действия к методу
         public IActionResult Index()
         {
-
-            //return Content("Hello from controller");
-            //return Accepted();
-            //return BadRequest();
-            //return NotFound();
-            //return Json();
-            //return PartialView();
-            //return View();
             return View(_employeesData.Get());  //передаем модель
         }
 
@@ -71,7 +58,7 @@ namespace WebStore.Controllers
                     SecondName = "Фамилия",
                     Patronymic = "Отчество"
                 });
-            
+
             EmployeeViewModel emp = _employeesData.GetById((int)id);
             if (emp is null) return NotFound();
             return View(emp);
@@ -85,7 +72,15 @@ namespace WebStore.Controllers
         [HttpPost]
         public IActionResult Edit(EmployeeViewModel emp)
         {
-            if (!ModelState.IsValid) return View(emp);  //состояние модели
+            if (!ModelState.IsValid)
+            {
+                //Генерируем ошибку формы
+                //if (emp.Age % 2 == 0)
+                //{
+                //    ModelState.AddModelError("Ошибка", "Ошибка возраста");
+                //}
+                return View(emp);  //состояние модели
+            }
 
             //id == 0 - добавить запись
             if (emp.Id == 0)
@@ -126,31 +121,9 @@ namespace WebStore.Controllers
 
             EmployeeViewModel emp = _employeesData.GetById((int)id);
             if (emp is null) return NotFound();
-            
+
             _employeesData.Delete((int)id);
             return RedirectToAction("Index", "Employees");
-        }
-
-        /// <summary>
-        /// Возвращаемые результаты
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult TestAction()
-        {
-            //return new ContentResult();  //наиболее общий класс 
-            //return new EmptyResult();  //пустой результат
-            //return new FileResult();      //группа классов наследников. Передают файловую информацию
-            //return new FileContentResult(); //передает массив байт
-            //return new FileStreamResult();   //возвращает поток данных
-            //return new StatusCodeResult(404);    //возвращает статусный код
-            //return new UnauthorizedResult();    //пользователь не прошел автризацию. статусный код 401
-            //return new JsonResult();             //возвращает результат в виде json объекта
-            //return new PartialViewResult()   //частичное представление
-
-            //return new RedirectResult();  //перенаправить пользователя на другой адрес
-            //return Redirect();
-            //return new RedirectToActionResult();  //выполняет переадресацию на определенный метод контроллера
-            return null;
         }
     }
 }
