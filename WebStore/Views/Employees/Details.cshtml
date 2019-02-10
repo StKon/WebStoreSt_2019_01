@@ -6,52 +6,39 @@
     ViewData["Title"] = "Карточка Сотрудника";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" charset="utf-8" />
-    <title>@ViewData["Title"]</title>
-</head>
-<body>
-    <section>
-        <div class="container">            
-            <h3>@ViewData["Title"]</h3>
-            <table class="table">
-                <tr>
-                    <td>ID :</td>
-                    <td>@Model.Id</td>
-                </tr>
-                <tr>
-                    <td>Фамилия :</td>
-                    <td>@Model.SecondName</td>
-                </tr>
-                <tr>
-                    <td>Имя :</td>
-                    <td>@Model.FirstName</td>
-                </tr>
-                <tr>
-                    <td>Отчество :</td>
-                    <td>@Model.Patronymic</td>
-                </tr>
-                <tr>
-                    <td>Возраст :</td>
-                    <td>@Model.Age</td>
-                </tr>
-                <tr>
-                    <td>Дата рождения :</td>
-                    <td>@Model.BirthDate.ToString("d")</td>
-                </tr>
-                <tr>
-                    <td>Дата устройства на работу :</td>
-                    <td>@Model.DateWork.ToString("d")</td>
-                </tr>
-            </table>
-            
-            @*@Html.DisplayForModel()*@
+<       <h3>@ViewData["Title"]</h3>
+<table class="table">
+    <tr>
+        <td>ID :</td>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <td>Фамилия :</td>
+        <td>@Model.SecondName</td>
+    </tr>
+    <tr>
+        <td>Имя :</td>
+        <td>@Model.FirstName</td>
+    </tr>
+    <tr>
+        <td>Отчество :</td>
+        <td>@Model.Patronymic</td>
+    </tr>
+    <tr>
+        <td>Возраст :</td>
+        <td>@Model.Age</td>
+    </tr>
+    <tr>
+        <td>Дата рождения :</td>
+        <td>@Model.BirthDate.ToString("d")</td>
+    </tr>
+    <tr>
+        <td>Дата устройства на работу :</td>
+        <td>@Model.DateWork.ToString("d")</td>
+    </tr>
+</table>
 
-            <hr />
-            <p>@Html.ActionLink("Список Сотрудников", "Index", "Employees")</p>
-        </div>
-    </section>
-</body>
-</html>
+@*@Html.DisplayForModel()*@
+
+<hr />
+<p>@Html.ActionLink("Список Сотрудников", "Index", "Employees")</p>

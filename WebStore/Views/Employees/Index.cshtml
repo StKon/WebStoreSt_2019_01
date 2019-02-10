@@ -6,45 +6,32 @@
     ViewData["Title"] = "Сотрудники";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" charset="utf-8" />
-    <title>@ViewData["Title"]</title>
-</head>
-<body>
-    <section>
-        <div class="container">
-            <h3>Сотрудники</h3>
-            <a asp-controller="Employees" asp-action="Edit" class="btn btn-success">Добавить</a>
-            <hr />
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th><p>ID</p></th>
-                        <th><p>Фамилия</p></th>
-                        <th><p>Имя</p></th>
-                        <th><p>Отчество</p></th>
-                        <th><p>Возраст</p></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var emp in Model)
-                    {
-                    <tr>
-                        <td>@emp.Id</td>
-                        <td>@emp.SecondName</td>
-                        <td>@emp.FirstName</td>
-                        <td>@emp.Patronymic</td>
-                        <td>@emp.Age</td>
-                        <td>@Html.ActionLink("Карточка", "Details","Employees",new { id = emp.Id })</td>
-                        <td>@Html.ActionLink("Редактировать", "Edit", "Employees", new { id = emp.Id })</td>
-                        <td>@Html.ActionLink("Удалить", "Delete", "Employees", new { id = emp.Id })</td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </section>
-</body>
-</html>
+<h3>Сотрудники</h3>
+<a asp-controller="Employees" asp-action="Edit" class="btn btn-success">Добавить</a>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th><p>ID</p></th>
+            <th><p>Фамилия</p></th>
+            <th><p>Имя</p></th>
+            <th><p>Отчество</p></th>
+            <th><p>Возраст</p></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td>@emp.Id</td>
+                <td>@emp.SecondName</td>
+                <td>@emp.FirstName</td>
+                <td>@emp.Patronymic</td>
+                <td>@emp.Age</td>
+                <td>@Html.ActionLink("Карточка", "Details", "Employees", new { id = emp.Id })</td>
+                <td>@Html.ActionLink("Редактировать", "Edit", "Employees", new { id = emp.Id })</td>
+                <td>@Html.ActionLink("Удалить", "Delete", "Employees", new { id = emp.Id })</td>
+            </tr>
+        }
+    </tbody>
+</table>
