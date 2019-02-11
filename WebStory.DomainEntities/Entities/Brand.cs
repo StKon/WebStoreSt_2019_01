@@ -8,6 +8,7 @@ using WebStory.DomainEntities.Entities.Base;
 
 namespace WebStory.DomainEntities.Entities
 {
+    /// <summary> Бренд товаров </summary>
     public class Brand : NamedEntity, IOrderedEntity
     {
         public int Order { get; set; }
