@@ -23,7 +23,8 @@
                         <ul>
                             @foreach (var section_child in section.ChildSections)
                             {
-                                <li><a href="#">@(section_child.Name) </a></li>
+                                @*<li><a href="#">@(section_child.Name) </a></li>*@
+                                <li><a asp-controller="Catalog" asp-action="Shop" asp-route-sectionId="@(section_child.Id)">@(section_child.Name) </a></li>
                             }
                         </ul>
                     </div>
@@ -34,7 +35,8 @@
         {
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">@(section.Name)</a></h4>
+                    @*<h4 class="panel-title"><a href="#">@(section.Name)</a></h4>*@
+                    <h4 class="panel-title"><a asp-controller="Catalog" asp-action="Shop" asp-route-sectionId="@(section.Id)">@(section.Name)</a></h4>
                 </div>
             </div>
         }
