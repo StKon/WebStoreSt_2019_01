@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore", "WebStore\WebStore.csproj", "{4A9D69F6-EA5C-4F88-9716-80827E154022}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore", "WebStore\WebStore.csproj", "{4A9D69F6-EA5C-4F88-9716-80827E154022}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStory.DomainEntities", "WebStory.DomainEntities\WebStory.DomainEntities.csproj", "{B26E8891-6FFD-4B2F-8FB2-C524E822A1DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4A9D69F6-EA5C-4F88-9716-80827E154022}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A9D69F6-EA5C-4F88-9716-80827E154022}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A9D69F6-EA5C-4F88-9716-80827E154022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B26E8891-6FFD-4B2F-8FB2-C524E822A1DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B26E8891-6FFD-4B2F-8FB2-C524E822A1DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B26E8891-6FFD-4B2F-8FB2-C524E822A1DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B26E8891-6FFD-4B2F-8FB2-C524E822A1DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
