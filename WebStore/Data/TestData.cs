@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebStory.Domain.Entities;
+using WebStory.DomainCorr.Entities;
 
 namespace WebStore.Data
 {

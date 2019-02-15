@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebStory.Domain.Entities.Base.Interfaces;
+using WebStory.DomainCorr.Entities.Base.Interfaces;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebStory.Domain.Entities.Base
+namespace WebStory.DomainCorr.Entities.Base
 {
     /// <summary> Базовая сущность </summary>
     public abstract class BaseEntity : IBaseEntity
     {
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
     }
 }
