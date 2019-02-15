@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("WebStory.Domain")]
+[assembly: AssemblyTitle("WebStore.Domain")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WebStory.Domain")]
+[assembly: AssemblyProduct("WebStore.Domain")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("993a0c51-bb27-4bfc-9e7f-103e43676676")]
+[assembly: Guid("580b1f56-8289-404f-a883-c9e44ed861e1")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //

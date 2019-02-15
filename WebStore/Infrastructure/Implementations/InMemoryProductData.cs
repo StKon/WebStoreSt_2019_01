@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Infrastructure.Interfaces;
-using WebStory.Domain.Entities;
+using WebStory.DomainCorr.Entities;
+using WebStory.DomainCorr.Entities.Filters;
 using WebStore.Data;
 
 namespace WebStore.Infrastructure.Implementations

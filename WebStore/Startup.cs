@@ -12,6 +12,8 @@ using WebStore.Infrastructure.Filters;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Implementations;
+using WebStory.DAL.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebStore
 {
@@ -41,7 +43,16 @@ namespace WebStore
             //регистрация сервиса работы с сотрудниками
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();   //один объект на всю систему  
             //регистрация сервиса работы с товарами
-            services.AddSingleton<IProductData, InMemoryProductData>();   //один объект на всю систему            
+            //services.AddSingleton<IProductData, InMemoryProductData>();   //один объект на всю систему         
+
+            //регистрируем сервис SQLProductData
+            services.AddScoped<IProductData, SQLProductData>();
+
+            //регистрируем контекст как сервис использую строку соединения
+            services.AddDbContext<WebStoryContext>(opt =>
+            {
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

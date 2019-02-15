@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebStory.Domain.Entities
+namespace WebStory.DomainCorr.Entities.Filters
 {
     /// <summary> Класс для фильтрации товаров </summary>
     public class ProductFilter
