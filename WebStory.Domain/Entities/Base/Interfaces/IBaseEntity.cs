@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebStory.DomainEntities.Entities.Base.Interfaces
+namespace WebStory.Domain.Entities.Base.Interfaces
 {
     /// <summary>
     /// Сущность с идентификатором

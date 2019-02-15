@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebStory.DomainEntities.Entities.Base.Interfaces;
-using WebStory.DomainEntities.Entities.Base;
+using WebStory.Domain.Entities.Base.Interfaces;
+using WebStory.Domain.Entities.Base;
 
-namespace WebStory.DomainEntities.Entities
+namespace WebStory.Domain.Entities
 {
     /// <summary> Бренд товаров </summary>
     public class Brand : NamedEntity, IOrderedEntity

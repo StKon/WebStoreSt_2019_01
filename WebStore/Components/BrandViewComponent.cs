@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Models;
-using WebStory.DomainEntities.Entities;
+using WebStory.Domain.Entities;
 
 namespace WebStore.Components
 {
@@ -33,7 +33,7 @@ namespace WebStore.Components
                 Id = br.Id,
                 Name = br.Name,
                 Order = br.Order,
-                ProductsCount = 0
+                ProductsCount =  _productData.GetBrandProductCount(br.Id)
             }).ToList();
             //сортировка списка
             brand_views.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));

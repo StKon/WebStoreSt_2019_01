@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Infrastructure.Interfaces;
-using WebStory.DomainEntities.Entities;
+using WebStory.Domain.Entities;
 using WebStore.Data;
 
 namespace WebStore.Infrastructure.Implementations
@@ -27,5 +27,9 @@ namespace WebStore.Infrastructure.Implementations
             return product;
         }
 
+        public int GetBrandProductCount(int brandId)
+        {
+            return TestData.Products.Count(p => p.BrandId == brandId);
+        }
     }
 }

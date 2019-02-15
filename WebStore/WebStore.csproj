@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebStory.DomainEntities\WebStory.DomainEntities.csproj" />
+    <ProjectReference Include="..\WebStory.Domain\WebStory.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
