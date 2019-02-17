@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WebStory.DAL.Context;
+using WebStore.DAL.Context;
 
 namespace WebStore.Data
 {

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Models;
-using WebStory.DomainCorr.Entities;
-using WebStory.DomainCorr.Entities.Filters;
+using WebStore.Domain.Entities;
+using WebStore.Domain.Entities.Filters;
 
 namespace WebStore.Controllers
 {

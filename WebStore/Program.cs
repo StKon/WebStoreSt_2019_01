@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using WebStore.Data;
-using WebStory.DAL.Context;
+using WebStore.DAL.Context;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WebStore

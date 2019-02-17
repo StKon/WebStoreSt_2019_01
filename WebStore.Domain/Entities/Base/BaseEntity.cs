@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebStory.DomainCorr.Entities.Base.Interfaces;
+using WebStore.Domain.Entities.Base.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebStory.DomainCorr.Entities.Base
+namespace WebStore.Domain.Entities.Base
 {
     /// <summary> Базовая сущность </summary>
     public abstract class BaseEntity : IBaseEntity

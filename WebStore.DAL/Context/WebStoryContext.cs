@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebStory.DomainCorr.Entities;
+using WebStore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
-namespace WebStory.DAL.Context 
+namespace WebStore.DAL.Context 
 {
-    public class WebStoryContext : DbContext
+    public class WebStoryContext : IdentityDbContext<User>
     {
         public WebStoryContext(DbContextOptions<WebStoryContext> options) : base(options) { }
 
