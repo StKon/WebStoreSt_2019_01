@@ -64,6 +64,10 @@ namespace WebStore
             {
                 opt.Password.RequiredLength = 6;  //пароль 6 символов
                 opt.Password.RequireDigit = true; //пароль содержит хотя бы одну цифру
+                opt.Password.RequiredUniqueChars = 0;  //
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
 
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);  //Пользователь блокируется при неправильном входе на 30 мин
                 opt.Lockout.MaxFailedAccessAttempts = 10;    //Max кол-во неудачных входов в систему
