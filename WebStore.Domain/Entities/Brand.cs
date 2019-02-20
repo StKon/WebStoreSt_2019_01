@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebStory.DomainCorr.Entities.Base.Interfaces;
-using WebStory.DomainCorr.Entities.Base;
+using WebStore.Domain.Entities.Base.Interfaces;
+using WebStore.Domain.Entities.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace WebStory.DomainCorr.Entities
+
+namespace WebStore.Domain.Entities
 {
     /// <summary> Бренд товаров </summary>
     [Table("Brands")]

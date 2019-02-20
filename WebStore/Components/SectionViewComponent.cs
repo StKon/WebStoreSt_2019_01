@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Models;
-using WebStory.DomainCorr.Entities;
+using WebStore.Domain.Entities;
 
 namespace WebStore.Components
 {

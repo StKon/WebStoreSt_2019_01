@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebStory.DomainCorr.Entities.Base.Interfaces
+namespace WebStore.Domain.Entities.Base.Interfaces
 {
     /// <summary> Сущность с сортировкой </summary>
     public interface IOrderedEntity

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebStory.DomainCorr.Entities.Base.Interfaces;
+using WebStore.Domain.Entities.Base.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
