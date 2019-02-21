@@ -8,11 +8,20 @@
     <title>@ViewData["Title"]</title>
     <link href="~/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/font-awesome.min.css" rel="stylesheet">
-    <link href="~/css/prettyPhoto.css" rel="stylesheet">
-    <link href="~/css/price-range.css" rel="stylesheet">
-    <link href="~/css/animate.css" rel="stylesheet">
-    <link href="~/css/main.css" rel="stylesheet">
-    <link href="~/css/responsive.css" rel="stylesheet">
+
+    @* Отладка *@
+    <environment include="Development">
+        <link href="~/css/prettyPhoto.css" rel="stylesheet" asp-append-version="true">
+        <link href="~/css/price-range.css" rel="stylesheet" asp-append-version="true">
+        <link href="~/css/animate.css" rel="stylesheet" asp-append-version="true">
+        <link href="~/css/main.css" rel="stylesheet" asp-append-version="true">
+        <link href="~/css/responsive.css" rel="stylesheet" asp-append-version="true">
+    </environment>
+
+    @* Эксплуатация *@
+    <environment exclude="Development">
+        <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true">
+    </environment>
 
     @RenderSection("Styles", false)
 
@@ -35,9 +44,18 @@
     <script src="~/js/jquery.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/jquery.scrollUp.min.js"></script>
-    <script src="~/js/price-range.js"></script>
-    <script src="~/js/jquery.prettyPhoto.js"></script>
-    <script src="~/js/main.js"></script>
+
+    @* Отладка *@
+    <environment include="Development">
+        <script src="~/js/price-range.js" asp-append-version="true"></script>
+        @*<script src="~/js/jquery.prettyPhoto.js" asp-append-version="true"></script>*@
+        <script src="~/js/main.js" asp-append-version="true"></script>
+    </environment>
+
+    @* Эксплуатация *@
+    <environment exclude="Development">
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
 
     @RenderSection("scripts", false)
 </body>
