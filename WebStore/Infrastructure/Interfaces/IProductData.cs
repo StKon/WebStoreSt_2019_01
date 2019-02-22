@@ -21,6 +21,9 @@ namespace WebStore.Infrastructure.Interfaces
         /// <returns></returns>
         IEnumerable<Product> GetProducts(ProductFilter productFilter);
 
+        /// <summary> Товар по индексу </summary>
+        Product GetProductById(int id);
+
         /// <summary> Кол-во товаров бренда </summary>
         int GetBrandProductCount(int brandId);
     }

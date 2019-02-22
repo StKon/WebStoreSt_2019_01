@@ -8,9 +8,12 @@ using WebStore.Infrastructure.Filters;
 using WebStore.Infrastructure.Interfaces;
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Core;
+using Microsoft.AspNetCore.Authorization;
+using WebStore.Domain.Entities;
 
 namespace WebStore.Controllers
 {
+    [Authorize]  //запретьть доступ к неавторизованным пользователям
     public class EmployeesController : Controller
     {
         private readonly IEmployeesData _employeesData;
@@ -49,6 +52,7 @@ namespace WebStore.Controllers
         /// <returns></returns>
         [HttpGet]
         //[ValidateAntiForgeryToken]   //проверка запроса на достоверность
+        [Authorize (Roles = WebStore.Domain.Entities.User.AdminRole)]
         public IActionResult Edit(int? id)
         {
             if (id is null)
@@ -70,6 +74,7 @@ namespace WebStore.Controllers
         /// <param name="emp"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = WebStore.Domain.Entities.User.AdminRole)]
         public IActionResult Edit(EmployeeViewModel emp)
         {
             if (!ModelState.IsValid)
@@ -104,6 +109,7 @@ namespace WebStore.Controllers
 
         [HttpGet]
         [ActionName("Delete")]
+        [Authorize(Roles = WebStore.Domain.Entities.User.AdminRole)]
         public IActionResult DeleteEmp(int? id)
         {
             if (id != null)
@@ -115,6 +121,7 @@ namespace WebStore.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = WebStore.Domain.Entities.User.AdminRole)]
         public IActionResult Delete(int? id)
         {
             if (id is null) return BadRequest();

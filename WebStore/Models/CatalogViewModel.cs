@@ -11,6 +11,6 @@ namespace WebStore.Models
         public int? SectionId { get; set; }
 
         /// <summary> товары в фильтре </summary>
-        public List<ProductViewModel> Products { get; set; }
+        public IEnumerable<ProductViewModel> Products { get; set; }
     }
 }

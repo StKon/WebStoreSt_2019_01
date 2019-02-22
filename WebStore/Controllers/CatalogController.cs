@@ -39,13 +39,36 @@ namespace WebStore.Controllers
                     ImageUrl = p.ImageUrl,
                     Name = p.Name,
                     Order = p.Order,
-                    Price = p.Price
+                    Price = p.Price,
+                    BrandId = p.BrandId,
+                    Brand = p.Brand is null ? string.Empty : p.Brand.Name,
+                    SectionId = p.SectionId,
+                    Section = p.Section?.Name ?? string.Empty
                 }).ToList()
             };
-            catalog_view.Products.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
+            catalog_view.Products.OrderBy(p => p.Order);
             return View(catalog_view);
         }
 
-        public IActionResult ProductDetails() => View();
+        public IActionResult ProductDetails(int id)
+        {
+            var product = _productData.GetProductById(id);
+
+            if (product is null)
+                return NotFound();
+
+            return View(new ProductViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                ImageUrl = product.ImageUrl,
+                Order = product.Order,
+                Price = product.Price,
+                BrandId = product.BrandId,
+                Brand = product.Brand?.Name ?? string.Empty,
+                SectionId = product.SectionId,
+                Section = product.Section?.Name ?? string.Empty
+            });            
+        }
     }
 }

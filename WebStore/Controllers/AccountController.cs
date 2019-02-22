@@ -70,6 +70,9 @@ namespace WebStore.Controllers
             var registion_result = await _userManager.CreateAsync(user, model.Password);
             if (registion_result.Succeeded)  //успешно
             {
+                //добавляем роль пользователя
+                await _userManager.AddToRoleAsync(user, Domain.Entities.User.UserRole);
+
                 //пользователь входит в систему
                 await _signInManager.SignInAsync(user, false);
 

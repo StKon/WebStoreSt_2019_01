@@ -27,7 +27,12 @@ namespace WebStore
                 try
                 {
                     var db = services.GetRequiredService<WebStoryContext>();
+
+                    //инициализация БД
                     db.Initialize();
+
+                    //инициализация системы авторизации
+                    services.InitializeIdentityAsync().Wait();
                 }
                 catch (Exception e)
                 {

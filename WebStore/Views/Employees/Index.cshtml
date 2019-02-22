@@ -4,10 +4,14 @@
 @{
     @*Layout = null;*@
     ViewData["Title"] = "Сотрудники";
+    var is_admin = User.IsInRole("Admin");
 }
 
 <h3>Сотрудники</h3>
-<a asp-controller="Employees" asp-action="Edit" class="btn btn-success">Добавить</a>
+@if (is_admin)
+{
+    <a asp-controller="Employees" asp-action="Edit" class="btn btn-success">Добавить</a>
+}
 <hr />
 <table class="table">
     <thead>
@@ -17,6 +21,12 @@
             <th><p>Имя</p></th>
             <th><p>Отчество</p></th>
             <th><p>Возраст</p></th>
+            <th></th>
+            @if (is_admin)
+            {
+                <th></th>
+                <th></th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -29,8 +39,11 @@
                 <td>@emp.Patronymic</td>
                 <td>@emp.Age</td>
                 <td>@Html.ActionLink("Карточка", "Details", "Employees", new { id = emp.Id })</td>
-                <td>@Html.ActionLink("Редактировать", "Edit", "Employees", new { id = emp.Id })</td>
-                <td>@Html.ActionLink("Удалить", "Delete", "Employees", new { id = emp.Id })</td>
+                @if (is_admin)
+                {
+                    <td>@Html.ActionLink("Редактировать", "Edit", "Employees", new { id = emp.Id })</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", "Employees", new { id = emp.Id })</td>
+                }
             </tr>
         }
     </tbody>

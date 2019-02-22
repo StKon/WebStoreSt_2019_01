@@ -13,5 +13,8 @@ namespace WebStore.Domain.Entities.Filters
 
         /// <summary> Бренд товара </summary>
         public int? BrandId;
+
+        /// <summary> Id товаров, которые надо отобразить </summary>
+        public IEnumerable<int> Ids { get; set; }
     }
 }
