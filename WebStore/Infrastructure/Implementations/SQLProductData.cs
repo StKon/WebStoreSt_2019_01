@@ -7,6 +7,7 @@ using WebStore.Domain;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebStore.Infrastructure.Implementations
 {
@@ -18,6 +19,7 @@ namespace WebStore.Infrastructure.Implementations
         {
             _db = db;
         }
+
         public int GetBrandProductCount(int brandId)
         {
             return _db.Products.Count(p => p.BrandId == brandId);
@@ -28,12 +30,23 @@ namespace WebStore.Infrastructure.Implementations
             return _db.Brands.AsEnumerable();
         }
 
+        public IEnumerable<Section> GetSections()
+        {
+            return _db.Sections.AsEnumerable();
+        }
+
         public IEnumerable<Product> GetProducts(ProductFilter productFilter)
         {
             if (productFilter is null)
-                return _db.Products.AsEnumerable();
+                return _db.Products
+                    .Include(p => p.Brand)
+                    .Include(p => p.Section)
+                    .AsEnumerable();
 
-            IQueryable<Product> result = _db.Products.AsQueryable();
+            IQueryable<Product> result = _db.Products
+                .Include(p => p.Brand)
+                .Include(p => p.Section)
+                .AsQueryable();
 
             if (productFilter.BrandId != null)
                 result = result.Where(p => p.BrandId == productFilter.BrandId);
@@ -44,9 +57,12 @@ namespace WebStore.Infrastructure.Implementations
             return result.AsEnumerable();
         }
 
-        public IEnumerable<Section> GetSections()
+        public Product GetProductById(int id)
         {
-            return _db.Sections.AsEnumerable();
+            return _db.Products
+                .Include(p => p.Brand)
+                .Include(p => p.Section)
+                .FirstOrDefault(p => p.Id == id);
         }
     }
 }

@@ -28,6 +28,11 @@ namespace WebStore.Infrastructure.Implementations
             return product;
         }
 
+        public Product GetProductById(int id)
+        {
+            return TestData.Products.FirstOrDefault(p => p.Id == id);
+        }
+
         public int GetBrandProductCount(int brandId)
         {
             return TestData.Products.Count(p => p.BrandId == brandId);
