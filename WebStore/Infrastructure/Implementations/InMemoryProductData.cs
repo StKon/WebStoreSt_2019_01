@@ -15,9 +15,11 @@ namespace WebStore.Infrastructure.Implementations
 
         public IEnumerable<Section> GetSections() => TestData.Sections;
 
-        public IEnumerable<Product> GetProducts(ProductFilter productFilter)
+        public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
         {
             List<Product> product = TestData.Products;
+
+            if (productFilter is null) return product;
 
             if (productFilter.SectionId.HasValue)
                 product = product.Where(p => p.SectionId.Equals(productFilter.SectionId)).ToList();
