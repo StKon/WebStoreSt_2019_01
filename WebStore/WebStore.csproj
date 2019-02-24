@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Home\Partial\_FeaturesItems.cshtml">
+    <Content Update="Views\Shared\Partial\_FeaturesItems.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
