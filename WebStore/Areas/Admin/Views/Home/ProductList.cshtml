@@ -1,0 +1,78 @@
+﻿
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Список товаров";
+}
+<p>
+    <a asp-controller="Home" asp-action="CreateProduct">Создать</a>  @*asp-area="Admin" не указываем*@
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SectionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BrandId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Name)                    
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Order)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.SectionId)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.BrandId)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ImageUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Price)
+                </td>
+                <td>
+                    @Html.ActionLink("Детали", "DetailsProduct", new { Area = "Admin", id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "EditProduct", new { Area = "Admin", id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink("Удалить", "DeleteProduct", new { Area = "Admin", id = item.Id }, new { @class = "text-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

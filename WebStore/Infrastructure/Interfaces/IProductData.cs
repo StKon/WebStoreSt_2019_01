@@ -19,7 +19,7 @@ namespace WebStore.Infrastructure.Interfaces
 
         /// <summary> Возвращает товары </summary>
         /// <returns></returns>
-        IEnumerable<Product> GetProducts(ProductFilter productFilter);
+        IEnumerable<Product> GetProducts(ProductFilter productFilter = null);
 
         /// <summary> Товар по индексу </summary>
         Product GetProductById(int id);

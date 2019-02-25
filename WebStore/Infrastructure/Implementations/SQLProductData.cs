@@ -35,7 +35,7 @@ namespace WebStore.Infrastructure.Implementations
             return _db.Sections.AsEnumerable();
         }
 
-        public IEnumerable<Product> GetProducts(ProductFilter productFilter)
+        public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
         {
             if (productFilter is null)
                 return _db.Products

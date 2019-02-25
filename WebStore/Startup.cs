@@ -53,6 +53,9 @@ namespace WebStore
             //регистрируем сервис работы с корзиной
             services.AddScoped<ICartService, CookieCartService>();
 
+            //регистрируем сервис работы с заказами
+            services.AddScoped<IOrdersService, SQLOrdersService>();
+
             //регистрируем контекст как сервис использую строку соединения
             services.AddDbContext<WebStoryContext>(opt =>
             {
@@ -113,6 +116,9 @@ namespace WebStore
             //Добавляем обработку запросов в mvc-формате
             app.UseMvc(routes =>
             {
+                //К областям
+                routes.MapRoute(name: "areas", template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
