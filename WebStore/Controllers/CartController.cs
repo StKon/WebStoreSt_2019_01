@@ -4,22 +4,30 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
+using WebStore.Models;
 
 namespace WebStore.Controllers
 {
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
+        private IOrdersService _orderService;
 
         /// <summary> Конструктор </summary>
-        public CartController(ICartService cartService)
+        public CartController(ICartService cartService, IOrdersService orderService)
         {
             _cartService = cartService;
+            _orderService = orderService;
         }
 
         public IActionResult Details()
         {
-            return View(_cartService.TransformCart());
+            DetailsViewModel model = new DetailsViewModel
+            {
+                CartViewModel = _cartService.TransformCart(),
+                OrderViewModel = new OrderViewModel()
+            };
+            return View(model);
         }
 
         public IActionResult DecrementFromCart(int id)
@@ -44,6 +52,33 @@ namespace WebStore.Controllers
         {
             _cartService.AddToCart(id);
             return Redirect(returnUrl);
+        }
+
+        /// <summary> Оформление заказа </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Checkout(OrderViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                DetailsViewModel detailsModel = new DetailsViewModel
+                {
+                    OrderViewModel = model,
+                    CartViewModel = _cartService.TransformCart()
+                };
+                return View("Details", detailsModel);
+            }
+
+            var ord = _orderService.CreateOrder(model, _cartService.TransformCart(), User.Identity.Name);
+            _cartService.RemoveAll();
+
+            return RedirectToAction("OrderConfirmed", new { id = ord.Id });
+        }
+
+        /// <summary> Подтверждение заказа </summary>
+        public IActionResult OrderConfirmed(int id)
+        {
+            ViewBag.OrderId = id;
+            return View();
         }
     }
 }

@@ -64,7 +64,7 @@
                         <ul class="nav navbar-nav">
                             <li><a href="#"><i class="fa fa-user"></i> Профиль</a></li>
                             <li><a href="#"><i class="fa fa-star"></i> Список желаний</a></li>
-                            <li><a asp-controller="Home" asp-action="Checkout"><i class="fa fa-crosshairs"></i> Оформление</a></li>
+                            @*<li><a asp-controller="Home" asp-action="Checkout"><i class="fa fa-crosshairs"></i> Оформление</a></li>*@
                             @*<li><a asp-controller="Home" asp-action="Cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>*@
                             <li><a asp-controller="Cart" asp-action="Details"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
                             @*<li><a asp-controller="Home" asp-action="Login" ><i class="fa fa-lock"></i> Login</a></li>*@
@@ -96,8 +96,8 @@
                                 <a href="#">Магазин<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a asp-controller="Catalog" asp-action="Shop">Товары</a></li>
-                                    <li><a asp-controller="Catalog" asp-action="ProductDetails">Описание товара</a></li>
-                                    <li><a asp-controller="Home" asp-action="Checkout">Оформление</a></li>
+                                    @*<li><a asp-controller="Catalog" asp-action="ProductDetails">Описание товара</a></li>*@
+                                    @*<li><a asp-controller="Home" asp-action="Checkout">Оформление</a></li>*@
                                     <li><a asp-controller="Home" asp-action="Cart">Корзина</a></li>
                                     @*<li><a asp-controller="Home" asp-action="Login">Login</a></li>*@
                                 </ul>
