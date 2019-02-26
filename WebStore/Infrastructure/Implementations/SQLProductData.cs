@@ -64,5 +64,39 @@ namespace WebStore.Infrastructure.Implementations
                 .Include(p => p.Section)
                 .FirstOrDefault(p => p.Id == id);
         }
+
+        public Product UpdateProduct(Product prod)
+        {
+            Product oldProd = _db.Products.FirstOrDefault(p => p.Id == prod.Id);
+            if (oldProd is null) return prod;
+
+            oldProd.Name = prod.Name;
+            oldProd.ImageUrl = prod.ImageUrl;
+            oldProd.Order = prod.Order;
+            oldProd.Price = prod.Price;
+            oldProd.BrandId = prod.BrandId;
+            oldProd.SectionId = prod.SectionId;
+
+            _db.SaveChanges();
+
+            return prod;
+        }
+
+        public Product AddProduct(Product prod)
+        {
+            prod.Id = 0;
+            _db.Products.Add(prod);
+            _db.SaveChanges();
+            return prod;
+        }
+
+        public void DeleteProduct(Product prod)
+        {
+            Product oldProd = _db.Products.FirstOrDefault(p => p.Id == prod.Id);
+            if (oldProd is null) return;
+
+            _db.Products.Remove(prod);
+            _db.SaveChanges();
+        }
     }
 }

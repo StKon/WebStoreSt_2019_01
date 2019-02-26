@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Filters;
@@ -9,7 +10,7 @@ using WebStore.Infrastructure.Interfaces;
 
 namespace WebStore.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize ( Roles = WebStore.Domain.Entities.User.AdminRole)]
     public class HomeController : Controller
     {
         private readonly IProductData _productData;
@@ -29,11 +30,6 @@ namespace WebStore.Areas.Admin.Controllers
             return View(_productData.GetProducts());
         }
 
-        public IActionResult CreateProduct()
-        {
-            return View();
-        }
-
         [HttpGet]
         public IActionResult EditProduct(int id)
         {
@@ -48,28 +44,50 @@ namespace WebStore.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return View(p);  //состояние модели
 
-
             Product oldProd = _productData.GetProductById(p.Id);
             if (oldProd is null) return NotFound();
 
-            oldProd.Name = p.Name;
-            oldProd.ImageUrl = p.ImageUrl;
-            oldProd.Order = p.Order;
-            oldProd.Price = p.Price;
-            oldProd.SectionId = p.SectionId;
-            oldProd.BrandId = p.BrandId;
+            _productData.UpdateProduct(p);
             
             return RedirectToAction("ProductList");
         }
 
-        public IActionResult DeleteProduct()
+        [HttpGet, ActionName("DeleteProduct")]
+        public IActionResult DeleteProductGet(int id)
         {
-            return View();
+            Product prod = _productData.GetProductById(id);
+            if (prod is null) return NotFound();
+            return View(prod);
         }
 
-        public IActionResult DetailsProduct()
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult DeleteProduct(int id)
         {
-            return View();
+            Product prod = _productData.GetProductById(id);
+            if (prod is null) return NotFound();
+            _productData.DeleteProduct(prod);
+            return RedirectToAction("ProductList");
+        }
+
+        public IActionResult DetailsProduct(int id)
+        {
+            Product prod = _productData.GetProductById(id);
+            if (prod is null) return NotFound();
+            return View(prod);
+        }
+
+        [HttpGet]
+        public IActionResult CreateProduct()
+        {
+            Product prod = new Product();
+            return View(prod);
+        }
+
+        [HttpPost]
+        public IActionResult CreateProduct(Product prod)
+        {
+            _productData.AddProduct(prod);
+            return RedirectToAction("ProductList");
         }
     }
 }

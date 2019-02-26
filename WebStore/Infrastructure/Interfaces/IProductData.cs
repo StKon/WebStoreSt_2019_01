@@ -26,5 +26,14 @@ namespace WebStore.Infrastructure.Interfaces
 
         /// <summary> Кол-во товаров бренда </summary>
         int GetBrandProductCount(int brandId);
+
+        /// <summary> Изменить товар </summary>
+        Product UpdateProduct(Product prod);
+
+        /// <summary> Добавить товар </summary>
+        Product AddProduct(Product prod);
+
+        /// <summary> Удалить товар </summary>
+        void DeleteProduct(Product prod);
     }
 }
