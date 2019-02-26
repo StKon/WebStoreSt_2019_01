@@ -1,0 +1,40 @@
+﻿
+@model IEnumerable<UserOrderViewModel>
+
+@{
+    ViewBag.Title = "Мои заказы";
+    Layout = "Partial/_ProfileLayout";
+}
+
+<h2> @ViewBag.Title </h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(e => e.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(e => e.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(e => e.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(e => e.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(e => e.TotalSum)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td> @item.Id </td>
+            <td> @item.Name </td>
+            <td> @item.Address </td>
+            <td> @item.Phone </td>
+            <td> @item.TotalSum.ToString("C") </td>
+        </tr>
+    }
+</table>

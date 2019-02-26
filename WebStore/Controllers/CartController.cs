@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebStore.Controllers
 {
+    //[Authorize]
     public class CartController : Controller
     {
         private readonly ICartService _cartService;

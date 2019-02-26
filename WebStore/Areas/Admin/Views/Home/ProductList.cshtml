@@ -7,29 +7,39 @@
 <p>
     <a asp-controller="Home" asp-action="CreateProduct" class="btn btn-success">Создать</a>  @*asp-area="Admin" не указываем*@
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Найти: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.Id), "ProductList", new { sortOrder = "Id", sortOrderOld = ViewBag.SortOrder })
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.Name), "ProductList", new { sortOrder = "Name", sortOrderOld = ViewBag.SortOrder })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.Order), "ProductList", new { sortOrder = "Order", sortOrderOld = ViewBag.SortOrder })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SectionId)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.SectionId), "ProductList", new { sortOrder = "SectionId", sortOrderOld = ViewBag.SortOrder })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BrandId)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.BrandId), "ProductList", new { sortOrder = "BrandId", sortOrderOld = ViewBag.SortOrder })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.ImageUrl), "ProductList", new { sortOrder = "ImageUrl", sortOrderOld = ViewBag.SortOrder })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.Price), "ProductList", new { sortOrder = "Price", sortOrderOld = ViewBag.SortOrder })
             </th>
             <th></th>
             <th></th>
@@ -44,7 +54,7 @@
                     @Html.DisplayFor(m => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => item.Name)                    
+                    @Html.DisplayFor(m => item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(m => item.Order)

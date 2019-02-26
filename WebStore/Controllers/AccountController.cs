@@ -12,7 +12,7 @@ namespace WebStore.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private SignInManager<User> _signInManager;
+        private readonly SignInManager<User> _signInManager;
 
         /// <summary> Конструктор передать сервисы </summary>
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
