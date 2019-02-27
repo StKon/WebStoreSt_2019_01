@@ -26,11 +26,11 @@
                                 <span class="icon-bar"></span>
                             </button>
                             <a class="navbar-brand" href="#">
-                                <img src="~/admin/img/logo.png" />
+                                <img src="~/images/home/logo.png" />
                             </a>
                         </div>
                         <span class="logout-spn">
-                            <a asp-controller="Account" asp-action="Logout" style="color:#fff;">Выйти</a>
+                            <a asp-area="" asp-controller="Home" asp-action="Index" style="color:#fff;">Выйти</a>
                         </span>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     <div class="sidebar-collapse">
                         <ul class="nav" id="main-menu">
                             <li>
-                                <a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-desktop "></i>Dashboard <span class="badge">Included</span></a>
+                                <a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-desktop "></i>Назад <span class="badge">Included</span></a>
                             </li>
                             <li>
                                 <a asp-area="Admin" asp-controller="Home" asp-action="ProductList"><i class="fa fa-edit "></i>Список Товаров  <span class="badge">Included</span></a>
