@@ -8,12 +8,12 @@
     <a asp-controller="Home" asp-action="CreateProduct" class="btn btn-success">Создать</a>  @*asp-area="Admin" не указываем*@
 </p>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(method : FormMethod.Get))
 {
-    <p>
-        Найти: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" />
-    </p>
+<p>
+    Найти: @Html.TextBox("SearchString")
+    <input type="submit" value="Search" />
+</p>
 }
 
 <table class="table">
