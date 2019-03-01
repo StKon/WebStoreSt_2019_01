@@ -9,10 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 
-namespace WebStore.Data
+namespace WebStore.Services.Data
 {
     /// <summary> Начальные данные </summary>
-    internal static class DbInitializer
+    public static class DbInitializer
     {
         /// <summary> Инициализация БД </summary>
         public static void Initialize(this WebStoryContext context)

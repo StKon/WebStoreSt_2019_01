@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using WebStore.Domain.Entities.Filters;
-using WebStore.Infrastructure.Interfaces;
+using WebStore.Interfaces;
 using WebStore.Domain.Entities.Cart;
-using WebStore.Domain.Entities;
-using WebStore.Models;
+using WebStore.ViewModels;
+using Newtonsoft.Json;
 
-namespace WebStore.Infrastructure.Implementations
+namespace WebStore.Services
 {
     /// <summary> Сервис. Корзина в куках </summary>
     public class CookieCartService : ICartService

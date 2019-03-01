@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebStore.Infrastructure.Interfaces;
+using WebStore.Interfaces;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Filters;
-using WebStore.Data;
+using WebStore.Services.Data;
 
-namespace WebStore.Infrastructure.Implementations
+namespace WebStore.Services
 {
     class InMemoryProductData : IProductData
     {

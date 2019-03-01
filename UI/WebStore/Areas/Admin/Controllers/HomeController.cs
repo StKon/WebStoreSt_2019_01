@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Filters;
-using WebStore.Infrastructure.Interfaces;
+using WebStore.Interfaces;
 using System.Reflection;
 
 namespace WebStore.Areas.Admin.Controllers

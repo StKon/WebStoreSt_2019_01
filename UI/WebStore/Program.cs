@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using WebStore.Data;
+using WebStore.Services.Data;
 using WebStore.DAL.Context;
 using Microsoft.Extensions.DependencyInjection;
 
