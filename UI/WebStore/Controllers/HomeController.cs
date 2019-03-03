@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Interfaces.Api;
 using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
     public class HomeController : Controller
     {
+        //Можно так
+        //private readonly IValuesService _valuesService;
+        //
+        //public HomeController(IValuesService valuesService)
+        //{
+        //    _valuesService = valuesService;
+        //}
+
         public IActionResult Index() => View();
 
         public IActionResult ContactUs() => View();
@@ -20,5 +29,7 @@ namespace WebStore.Controllers
         public IActionResult Blog() => View();
 
         public IActionResult ErrorPage404() => View();
+
+        public IActionResult ValuesServiceTest([FromServices] IValuesService valuesService) => View(valuesService.Get());
     }
 }

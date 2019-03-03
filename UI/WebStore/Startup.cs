@@ -16,6 +16,8 @@ using WebStore.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using WebStore.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using WebStore.Interfaces.Api;
+using WebStore.Clients.Values;
 
 namespace WebStore
 {
@@ -41,6 +43,9 @@ namespace WebStore
         {
             //Добавляем сервисы, необходимые для mvc
             services.AddMvc();
+
+            // Добавляем реализацию клиента
+            services.AddTransient<IValuesService, ValuesClient>();
 
             //регистрация сервиса работы с сотрудниками
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();   //один объект на всю систему  

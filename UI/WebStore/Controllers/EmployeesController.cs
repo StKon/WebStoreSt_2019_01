@@ -29,7 +29,7 @@ namespace WebStore.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            return View(_employeesData.Get());  //передаем модель
+            return View(_employeesData.GetAll());  //передаем модель
         }
 
         /// <summary>
