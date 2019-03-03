@@ -24,10 +24,11 @@ namespace WebStore.Services
         public void AddNew(EmployeeViewModel newEmp)
         {
             //проверяем в списке
-            if (_employee.Contains(newEmp)) return;
+            if (newEmp is null)
+                throw new ArgumentNullException(nameof(newEmp));
 
             //определяем id
-            newEmp.Id = _employee.Max(e => e.Id) + 1;
+            newEmp.Id = _employee.Count == 0 ? 1 : _employee.Max(e => e.Id) + 1;
             _employee.Add(newEmp);
         }
 
@@ -47,7 +48,7 @@ namespace WebStore.Services
         /// Получить список сотрудников
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<EmployeeViewModel> Get() => _employee;
+        public IEnumerable<EmployeeViewModel> GetAll() => _employee;
 
         /// <summary>
         /// Получить сотрудника по индексу
@@ -62,5 +63,29 @@ namespace WebStore.Services
         /// </summary>
         public void SaveChanges()
         {  }
+
+        /// <summary>
+        /// Изменить сотрудника
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="emp"></param>
+        /// <returns></returns>
+        public EmployeeViewModel UpdateEmployee(int id, EmployeeViewModel emp)
+        {
+            if (emp is null)
+                throw new ArgumentNullException(nameof(emp));
+
+            var employee = GetById(id);
+            if (employee is null)
+                throw new InvalidOperationException($"Сотрудник {emp.Id} не найден");
+
+            employee.Age = emp.Age;
+            employee.FirstName = emp.FirstName;
+            employee.Patronymic = emp.Patronymic;
+            employee.SecondName = emp.SecondName;
+            employee.BirthDate = emp.BirthDate;
+            employee.DateWork = emp.DateWork;
+            return employee;
+        }
     }
 }

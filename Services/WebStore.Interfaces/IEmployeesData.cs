@@ -15,13 +15,21 @@ namespace WebStore.Interfaces
         /// Возвращает всех сотрудников
         /// </summary>
         /// <returns></returns>
-        IEnumerable<EmployeeViewModel> Get();
+        IEnumerable<EmployeeViewModel> GetAll();
 
         /// <summary>
         /// Возвращает сотрудника по идентификатору
         /// </summary>
         /// <returns></returns>
         EmployeeViewModel GetById(int id);
+
+        /// <summary>
+        /// Изменить сотрудника
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="emp"></param>
+        /// <returns></returns>
+        EmployeeViewModel UpdateEmployee(int id, EmployeeViewModel emp);
 
         /// <summary>
         /// Добавить сотрудника
