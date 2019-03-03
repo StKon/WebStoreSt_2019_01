@@ -46,7 +46,7 @@ namespace WebStore.ServiceHosting.Controllers
         [HttpGet("{id}"), ActionName("Get")]
         public EmployeeViewModel GetById(int id)
         {
-            return GetById(id);
+            return _employeesData.GetById(id);
         }
 
         [NonAction]
@@ -58,7 +58,7 @@ namespace WebStore.ServiceHosting.Controllers
         [HttpPut("{id}"), ActionName("Put")]
         public EmployeeViewModel UpdateEmployee(int id, [FromBody] EmployeeViewModel emp)
         {
-            return UpdateEmployee(id, emp);
+            return _employeesData.UpdateEmployee(id, emp);
         }
     }
 }

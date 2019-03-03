@@ -18,6 +18,7 @@ using WebStore.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using WebStore.Interfaces.Api;
 using WebStore.Clients.Values;
+using WebStore.Clients.Employees;
 
 namespace WebStore
 {
@@ -48,7 +49,9 @@ namespace WebStore
             services.AddTransient<IValuesService, ValuesClient>();
 
             //регистрация сервиса работы с сотрудниками
-            services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();   //один объект на всю систему  
+            //services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();   //один объект на всю систему  
+            services.AddTransient<IEmployeesData, EmployeesClient>();
+
             //регистрация сервиса работы с товарами
             //services.AddSingleton<IProductData, InMemoryProductData>();   //один объект на всю систему         
 
