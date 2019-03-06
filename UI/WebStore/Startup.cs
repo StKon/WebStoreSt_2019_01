@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Identity;
 using WebStore.Interfaces.Api;
 using WebStore.Clients.Values;
 using WebStore.Clients.Employees;
+using WebStore.Clients.Products;
 
 namespace WebStore
 {
@@ -56,7 +57,8 @@ namespace WebStore
             //services.AddSingleton<IProductData, InMemoryProductData>();   //один объект на всю систему         
 
             //регистрируем сервис SQLProductData
-            services.AddScoped<IProductData, SQLProductData>();
+            //services.AddScoped<IProductData, SQLProductData>();
+            services.AddTransient<IProductData, ProductsClient>();
 
             //регистрируем сервис работы с корзиной
             services.AddScoped<ICartService, CookieCartService>();

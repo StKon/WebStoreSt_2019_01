@@ -20,7 +20,7 @@ namespace WebStore.ServiceHosting.Controllers
 
         public ProductsController(IProductData productData) => _productData = productData;
 
-        [HttpPost, ActionName("Post")]
+        [HttpPost("Add"), ActionName("Post")]
         public ProductDto AddProduct([FromBody] ProductDto prod)
         {
             return _productData.AddProduct(prod);

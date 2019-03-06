@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.ViewModels;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Dto;
 
 namespace WebStore.Interfaces
 {
@@ -13,6 +14,6 @@ namespace WebStore.Interfaces
 
         Order GetOrderById(int id);
 
-        Order CreateOrder(OrderViewModel orderModel, CartViewModel transformCart, string userName);
+        Order CreateOrder(CreateOrderModel orderModel, string userName);
     }
 }

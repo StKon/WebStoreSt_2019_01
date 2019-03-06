@@ -21,7 +21,7 @@ namespace WebStore.Clients.Products
 
         public ProductDto AddProduct(ProductDto prod)
         {
-            var url = $"{ServicesAddress}";
+            var url = $"{ServicesAddress}/Add";
             var response = Post<ProductDto>(url, prod);
             var result = response.Content.ReadAsAsync<ProductDto>().Result;
             return result;
@@ -57,6 +57,7 @@ namespace WebStore.Clients.Products
         public IEnumerable<ProductDto> GetProducts(ProductFilter productFilter = null)
         {
             var url = $"{ServicesAddress}";
+            if (productFilter is null) productFilter = new ProductFilter();
             var response = Post<ProductFilter>(url, productFilter);
             var result = response.Content.ReadAsAsync<IEnumerable<ProductDto>>().Result;
             return result;
