@@ -20,6 +20,7 @@ using WebStore.Interfaces.Api;
 using WebStore.Clients.Values;
 using WebStore.Clients.Employees;
 using WebStore.Clients.Products;
+using WebStore.Clients.Orders;
 
 namespace WebStore
 {
@@ -64,7 +65,8 @@ namespace WebStore
             services.AddScoped<ICartService, CookieCartService>();
 
             //регистрируем сервис работы с заказами
-            services.AddScoped<IOrdersService, SQLOrdersService>();
+            //services.AddScoped<IOrdersService, SQLOrdersService>();
+            services.AddTransient<IOrdersService, OrdersClient>();
 
             //регистрируем контекст как сервис использую строку соединения
             services.AddDbContext<WebStoryContext>(opt =>

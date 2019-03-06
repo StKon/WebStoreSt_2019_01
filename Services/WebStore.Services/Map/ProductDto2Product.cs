@@ -54,7 +54,7 @@ namespace WebStore.Services.Map
                 ImageUrl = product.ImageUrl,
                 Order = product.Order,
                 Price = product.Price,
-                BrandId = product.Brand?.Id,                
+                BrandId = product.Brand?.Id,                  
                 SectionId = product.Section.Id
             };
         }

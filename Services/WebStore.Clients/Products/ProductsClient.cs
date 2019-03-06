@@ -27,9 +27,9 @@ namespace WebStore.Clients.Products
             return result;
         }
 
-        public void DeleteProduct(ProductDto prod)
+        public void DeleteProduct(int id)
         {
-            var url = $"{ServicesAddress}/{prod.Id}";
+            var url = $"{ServicesAddress}/{id}";
             Delete(url);
         }
 

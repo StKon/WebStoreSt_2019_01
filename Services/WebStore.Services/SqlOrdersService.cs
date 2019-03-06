@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WebStore.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using WebStore.Domain.Dto;
+using WebStore.Services.Map;
 
 namespace WebStore.Services
 {
@@ -22,7 +23,7 @@ namespace WebStore.Services
             _userManager = userManager;
         }
 
-        public Order CreateOrder(CreateOrderModel orderModel, string userName)
+        public OrderDto CreateOrder(CreateOrderModel orderModel, string userName)
         {
             //пользователь
             var user = _userManager.FindByNameAsync(userName).Result;
@@ -65,24 +66,26 @@ namespace WebStore.Services
                 //завершение транзакции
                 tran.Commit();
 
-                return ord;
+                return ord.Map();
             }
         }
 
-        public Order GetOrderById(int id)
+        public OrderDto GetOrderById(int id)
         {
-            return (_context.Orders
+            return _context.Orders
                 .Include(o => o.User)
                 .Include(o => o.OrderItems)
-                .FirstOrDefault(o => o.Id == id));
+                .FirstOrDefault(o => o.Id == id).Map();
         }
 
-        public IEnumerable<Order> GetUserOrders(string userName)
+        public IEnumerable<OrderDto> GetUserOrders(string userName)
         {
-            return (_context.Orders
+            return _context.Orders
                      .Include(o => o.User)
                      .Include(o => o.OrderItems)
-                     .Where(o => o.User.UserName == userName).ToList());
+                     .Where(o => o.User.UserName == userName)
+                     .Select(o => o.Map())
+                     .ToList();
         }
     }
 }

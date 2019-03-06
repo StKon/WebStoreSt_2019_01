@@ -98,9 +98,9 @@ namespace WebStore.Services
             return prod.Map();
         }
 
-        public void DeleteProduct(ProductDto prod)
+        public void DeleteProduct(int id)
         {
-            Product oldProd = _db.Products.FirstOrDefault(p => p.Id == prod.Id);
+            Product oldProd = _db.Products.FirstOrDefault(p => p.Id == id);
             if (oldProd is null) return;
 
             _db.Products.Remove(oldProd);

@@ -26,13 +26,13 @@ namespace WebStore.ServiceHosting.Controllers
             return _productData.AddProduct(prod);
         }
 
-        [HttpDelete, ActionName("Delete")]
-        public void DeleteProduct([FromBody] ProductDto prod)
+        [HttpDelete("{id}"), ActionName("Delete")]
+        public void DeleteProduct(int id)
         {
-            _productData.DeleteProduct(prod);
+            _productData.DeleteProduct(id);
         }
 
-        [HttpGet("ProductCount")]
+        [HttpGet("ProductCount/{brandId}")]
         public int GetBrandProductCount(int brandId)
         {
             return _productData.GetBrandProductCount(brandId);

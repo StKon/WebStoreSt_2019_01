@@ -64,9 +64,10 @@ namespace WebStore.Services
             return prod.Map();
         }
 
-        public void DeleteProduct(ProductDto prod)
+        public void DeleteProduct(int id)
         {
-            TestData.Products.Remove(prod.Map());
+            Product prod = TestData.Products.FirstOrDefault(p => p.Id == id);
+            TestData.Products.Remove(prod);
         }
     }
 }

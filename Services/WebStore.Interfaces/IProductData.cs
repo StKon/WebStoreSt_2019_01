@@ -34,6 +34,6 @@ namespace WebStore.Interfaces
         ProductDto AddProduct(ProductDto prod);
 
         /// <summary> Удалить товар </summary>
-        void DeleteProduct(ProductDto prod);
+        void DeleteProduct(int id);
     }
 }

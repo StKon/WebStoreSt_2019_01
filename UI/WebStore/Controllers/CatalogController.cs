@@ -27,7 +27,7 @@ namespace WebStore.Controllers
             {
                 BrandId = brandId,
                 SectionId = sectionId
-            });
+            });            
 
             var catalog_view = new CatalogViewModel()
             {
@@ -40,7 +40,7 @@ namespace WebStore.Controllers
                     Name = p.Name,
                     Order = p.Order,
                     Price = p.Price,
-                    BrandId = p.Brand.Id,
+                    BrandId = p.Brand?.Id,
                     Brand = p.Brand is null ? string.Empty : p.Brand.Name,
                     SectionId = p.Section.Id,
                     Section = p.Section?.Name ?? string.Empty

@@ -16,7 +16,7 @@ namespace WebStore.Domain.Dto
 
         public DateTime Date { get; set; }
 
-        public virtual Collection<OrderItemDto> Items { get; set; }
+        public ICollection<OrderItemDto> Items { get; set; }
     }
 
     public class OrderItemDto : BaseEntity

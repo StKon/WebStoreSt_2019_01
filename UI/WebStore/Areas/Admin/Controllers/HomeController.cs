@@ -112,11 +112,10 @@ namespace WebStore.Areas.Admin.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult DeleteProduct(int id)
+        public IActionResult DeleteProduct(Product prod)
         {
-            Product prod = _productData.GetProductById(id).Map();
-            if (prod is null) return NotFound();
-            _productData.DeleteProduct(prod.Map());
+            if (prod is null) NotFound();
+            _productData.DeleteProduct(prod.Id);
             return RedirectToAction("ProductList");
         }
 
