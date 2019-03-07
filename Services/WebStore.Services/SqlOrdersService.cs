@@ -7,6 +7,8 @@ using WebStore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using WebStore.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using WebStore.Domain.Dto;
+using WebStore.Services.Map;
 
 namespace WebStore.Services
 {
@@ -21,7 +23,7 @@ namespace WebStore.Services
             _userManager = userManager;
         }
 
-        public Order CreateOrder(OrderViewModel orderModel, CartViewModel transformCart, string userName)
+        public OrderDto CreateOrder(CreateOrderModel orderModel, string userName)
         {
             //пользователь
             var user = _userManager.FindByNameAsync(userName).Result;
@@ -32,29 +34,28 @@ namespace WebStore.Services
                 //новый заказ
                 Order ord = new Order
                 {
-                    Name = orderModel.Name,
-                    Address = orderModel.Address,
-                    Phone = orderModel.Phone,
+                    Name = orderModel.OrderViewModel.Name,
+                    Address = orderModel.OrderViewModel.Address,
+                    Phone = orderModel.OrderViewModel.Phone,
                     User = user,
                     Date = DateTime.Now
                 };
                 _context.Orders.Add(ord);
 
                 //элементы заказа
-                foreach(var it in transformCart.Items)
-                {
-                    ProductViewModel prodViewModel = it.Key;
-                    //var prod = _context.Products.FirstOrDefault(p => p.Id == prodViewModel.Id);
-                    var prod = _context.Products.Find(prodViewModel.Id);
+                foreach(var it in orderModel.Items)
+                {                    
+                    //var prod = _context.Products.FirstOrDefault(p => p.Id == it.Id);
+                    var prod = _context.Products.Find(it.Id);
                     if (prod is null)
-                        throw new InvalidOperationException($"Товар c id={prodViewModel.Id} не найден в базе данных");
+                        throw new InvalidOperationException($"Товар c id={it.Id} не найден в базе данных");
 
                     OrderItem ordItem = new OrderItem
                     {
                         Order = ord,
                         Product = prod,
                         Price = prod.Price,
-                        Quantity = it.Value
+                        Quantity = it.Quantity
                     };
                     _context.OrderItems.Add(ordItem);
                 }
@@ -65,24 +66,26 @@ namespace WebStore.Services
                 //завершение транзакции
                 tran.Commit();
 
-                return ord;
+                return ord.Map();
             }
         }
 
-        public Order GetOrderById(int id)
+        public OrderDto GetOrderById(int id)
         {
-            return (_context.Orders
+            return _context.Orders
                 .Include(o => o.User)
                 .Include(o => o.OrderItems)
-                .FirstOrDefault(o => o.Id == id));
+                .FirstOrDefault(o => o.Id == id).Map();
         }
 
-        public IEnumerable<Order> GetUserOrders(string userName)
+        public IEnumerable<OrderDto> GetUserOrders(string userName)
         {
-            return (_context.Orders
+            return _context.Orders
                      .Include(o => o.User)
                      .Include(o => o.OrderItems)
-                     .Where(o => o.User.UserName == userName).ToList());
+                     .Where(o => o.User.UserName == userName)
+                     .Select(o => o.Map())
+                     .ToList();
         }
     }
 }

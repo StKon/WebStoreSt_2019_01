@@ -8,6 +8,8 @@ using WebStore.Interfaces;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Filters;
 using Microsoft.EntityFrameworkCore;
+using WebStore.Domain.Dto;
+using WebStore.Services.Map;
 
 namespace WebStore.Services
 {
@@ -35,12 +37,13 @@ namespace WebStore.Services
             return _db.Sections.AsEnumerable();
         }
 
-        public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
+        public IEnumerable<ProductDto> GetProducts(ProductFilter productFilter = null)
         {
             if (productFilter is null)
                 return _db.Products
                     .Include(p => p.Brand)
                     .Include(p => p.Section)
+                    .Select(p => p.Map())
                     .AsEnumerable();
 
             IQueryable<Product> result = _db.Products
@@ -54,21 +57,24 @@ namespace WebStore.Services
             if (productFilter.SectionId != null)
                 result = result.Where(p => p.SectionId == productFilter.SectionId);
 
-            return result.AsEnumerable();
+            return result.Select(p => p.Map()).AsEnumerable();
         }
 
-        public Product GetProductById(int id)
+        public ProductDto GetProductById(int id)
         {
             return _db.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Section)
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefault(p => p.Id == id)
+                .Map();
         }
 
-        public Product UpdateProduct(Product prod)
+        public ProductDto UpdateProduct(ProductDto product)
         {
+            Product prod = product.Map();
+
             Product oldProd = _db.Products.FirstOrDefault(p => p.Id == prod.Id);
-            if (oldProd is null) return prod;
+            if (oldProd is null) return prod.Map();
 
             oldProd.Name = prod.Name;
             oldProd.ImageUrl = prod.ImageUrl;
@@ -79,23 +85,25 @@ namespace WebStore.Services
 
             _db.SaveChanges();
 
-            return prod;
+            return prod.Map();
         }
 
-        public Product AddProduct(Product prod)
+        public ProductDto AddProduct(ProductDto product)
         {
+            Product prod = product.Map();
+
             prod.Id = 0;
             _db.Products.Add(prod);
             _db.SaveChanges();
-            return prod;
+            return prod.Map();
         }
 
-        public void DeleteProduct(Product prod)
+        public void DeleteProduct(int id)
         {
-            Product oldProd = _db.Products.FirstOrDefault(p => p.Id == prod.Id);
+            Product oldProd = _db.Products.FirstOrDefault(p => p.Id == id);
             if (oldProd is null) return;
 
-            _db.Products.Remove(prod);
+            _db.Products.Remove(oldProd);
             _db.SaveChanges();
         }
     }

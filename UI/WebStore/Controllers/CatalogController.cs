@@ -27,7 +27,7 @@ namespace WebStore.Controllers
             {
                 BrandId = brandId,
                 SectionId = sectionId
-            });
+            });            
 
             var catalog_view = new CatalogViewModel()
             {
@@ -40,9 +40,9 @@ namespace WebStore.Controllers
                     Name = p.Name,
                     Order = p.Order,
                     Price = p.Price,
-                    BrandId = p.BrandId,
+                    BrandId = p.Brand?.Id,
                     Brand = p.Brand is null ? string.Empty : p.Brand.Name,
-                    SectionId = p.SectionId,
+                    SectionId = p.Section.Id,
                     Section = p.Section?.Name ?? string.Empty
                 }).ToList()
             };
@@ -64,9 +64,9 @@ namespace WebStore.Controllers
                 ImageUrl = product.ImageUrl,
                 Order = product.Order,
                 Price = product.Price,
-                BrandId = product.BrandId,
-                Brand = product.Brand?.Name ?? string.Empty,
-                SectionId = product.SectionId,
+                BrandId = product.Brand?.Id,
+                Brand = product.Brand?.Name ?? string.Empty,  
+                SectionId = product.Section?.Id ?? 0,
                 Section = product.Section?.Name ?? string.Empty
             });            
         }

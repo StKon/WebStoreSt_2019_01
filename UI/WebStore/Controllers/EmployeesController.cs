@@ -94,15 +94,17 @@ namespace WebStore.Controllers
             }
             else
             {
-                EmployeeViewModel oldEmp = _employeesData.GetById((int)emp.Id);
-                if (oldEmp is null) return NotFound();
+                _employeesData.UpdateEmployee(emp.Id, emp);
 
-                oldEmp.FirstName = emp.FirstName;
-                oldEmp.SecondName = emp.SecondName;
-                oldEmp.Patronymic = emp.Patronymic;
-                oldEmp.DateWork = emp.DateWork;
-                oldEmp.Age = emp.Age;
-                oldEmp.BirthDate = emp.BirthDate;
+                //EmployeeViewModel oldEmp = _employeesData.GetById((int)emp.Id);
+                //if (oldEmp is null) return NotFound();
+
+                //oldEmp.FirstName = emp.FirstName;
+                //oldEmp.SecondName = emp.SecondName;
+                //oldEmp.Patronymic = emp.Patronymic;
+                //oldEmp.DateWork = emp.DateWork;
+                //oldEmp.Age = emp.Age;
+                //oldEmp.BirthDate = emp.BirthDate;
             }
             return RedirectToAction("Index", "Employees");
         }

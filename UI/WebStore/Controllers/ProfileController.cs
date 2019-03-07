@@ -44,7 +44,7 @@ namespace WebStore.Controllers
                     Address = ord.Address,
                     Name = ord.Name,
                     Phone = ord.Phone,
-                    TotalSum = ord.OrderItems.Sum(i => i.Price * i.Quantity)
+                    TotalSum = ord.Items.Sum(i => i.Price * i.Quantity)
                 });
             }
             return View(ordersModel.AsEnumerable());

@@ -18,6 +18,9 @@ using WebStore.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using WebStore.Interfaces.Api;
 using WebStore.Clients.Values;
+using WebStore.Clients.Employees;
+using WebStore.Clients.Products;
+using WebStore.Clients.Orders;
 
 namespace WebStore
 {
@@ -48,18 +51,22 @@ namespace WebStore
             services.AddTransient<IValuesService, ValuesClient>();
 
             //регистрация сервиса работы с сотрудниками
-            services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();   //один объект на всю систему  
+            //services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();   //один объект на всю систему  
+            services.AddTransient<IEmployeesData, EmployeesClient>();
+
             //регистрация сервиса работы с товарами
             //services.AddSingleton<IProductData, InMemoryProductData>();   //один объект на всю систему         
 
             //регистрируем сервис SQLProductData
-            services.AddScoped<IProductData, SQLProductData>();
+            //services.AddScoped<IProductData, SQLProductData>();
+            services.AddTransient<IProductData, ProductsClient>();
 
             //регистрируем сервис работы с корзиной
             services.AddScoped<ICartService, CookieCartService>();
 
             //регистрируем сервис работы с заказами
-            services.AddScoped<IOrdersService, SQLOrdersService>();
+            //services.AddScoped<IOrdersService, SQLOrdersService>();
+            services.AddTransient<IOrdersService, OrdersClient>();
 
             //регистрируем контекст как сервис использую строку соединения
             services.AddDbContext<WebStoryContext>(opt =>

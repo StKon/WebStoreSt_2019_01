@@ -8,6 +8,7 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Filters;
 using WebStore.Interfaces;
 using System.Reflection;
+using WebStore.Services.Map;
 
 namespace WebStore.Areas.Admin.Controllers
 {
@@ -37,7 +38,7 @@ namespace WebStore.Areas.Admin.Controllers
                 sortOrder = sortOrder + "_desc";
             //else if(ViewBag.SortOrder == (sortOrder + "_desc"))
 
-            var prod = _productData.GetProducts();
+            var prod = _productData.GetProducts().Select(p => p.Map());
 
             //ФИЛЬТР
             if (! string.IsNullOrEmpty(searchString))
@@ -83,7 +84,7 @@ namespace WebStore.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult EditProduct(int id)
         {
-            Product prod = _productData.GetProductById(id);
+            Product prod = _productData.GetProductById(id).Map();
             if (prod is null) return NotFound();
             return View(prod);
         }
@@ -94,10 +95,10 @@ namespace WebStore.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return View(p);  //состояние модели
 
-            Product oldProd = _productData.GetProductById(p.Id);
+            Product oldProd = _productData.GetProductById(p.Id).Map();
             if (oldProd is null) return NotFound();
 
-            _productData.UpdateProduct(p);
+            _productData.UpdateProduct(p.Map());
 
             return RedirectToAction("ProductList");
         }
@@ -105,23 +106,22 @@ namespace WebStore.Areas.Admin.Controllers
         [HttpGet, ActionName("DeleteProduct")]
         public IActionResult DeleteProductGet(int id)
         {
-            Product prod = _productData.GetProductById(id);
+            Product prod = _productData.GetProductById(id).Map();
             if (prod is null) return NotFound();
             return View(prod);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult DeleteProduct(int id)
+        public IActionResult DeleteProduct(Product prod)
         {
-            Product prod = _productData.GetProductById(id);
-            if (prod is null) return NotFound();
-            _productData.DeleteProduct(prod);
+            if (prod is null) NotFound();
+            _productData.DeleteProduct(prod.Id);
             return RedirectToAction("ProductList");
         }
 
         public IActionResult DetailsProduct(int id)
         {
-            Product prod = _productData.GetProductById(id);
+            Product prod = _productData.GetProductById(id).Map();
             if (prod is null) return NotFound();
             return View(prod);
         }
@@ -136,7 +136,7 @@ namespace WebStore.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult CreateProduct(Product prod)
         {
-            _productData.AddProduct(prod);
+            _productData.AddProduct(prod.Map());
             return RedirectToAction("ProductList");
         }
     }

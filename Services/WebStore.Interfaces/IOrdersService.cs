@@ -4,15 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.ViewModels;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Dto;
 
 namespace WebStore.Interfaces
 {
     public interface IOrdersService
     {
-        IEnumerable<Order> GetUserOrders(string userName);
+        IEnumerable<OrderDto> GetUserOrders(string userName);
 
-        Order GetOrderById(int id);
+        OrderDto GetOrderById(int id);
 
-        Order CreateOrder(OrderViewModel orderModel, CartViewModel transformCart, string userName);
+        OrderDto CreateOrder(CreateOrderModel orderModel, string userName);
     }
 }

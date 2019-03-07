@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebStore.Interfaces;
 using WebStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using WebStore.Domain.Dto;
 
 namespace WebStore.Controllers
 {
@@ -70,7 +71,18 @@ namespace WebStore.Controllers
                 return View("Details", detailsModel);
             }
 
-            var ord = _orderService.CreateOrder(model, _cartService.TransformCart(), User.Identity.Name);
+            var createOrderModel = new CreateOrderModel
+            {
+                OrderViewModel = model,
+                Items = _cartService.TransformCart().Items.Select(i => new OrderItemDto
+                {
+                    Id = i.Key.Id,
+                    Quantity = i.Value
+                }).ToList()
+            };
+
+            var ord = _orderService.CreateOrder(createOrderModel, User.Identity.Name);
+
             _cartService.RemoveAll();
 
             return RedirectToAction("OrderConfirmed", new { id = ord.Id });

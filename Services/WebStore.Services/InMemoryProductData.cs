@@ -6,6 +6,8 @@ using WebStore.Interfaces;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Filters;
 using WebStore.Services.Data;
+using WebStore.Services.Map;
+using WebStore.Domain.Dto;
 
 namespace WebStore.Services
 {
@@ -15,11 +17,11 @@ namespace WebStore.Services
 
         public IEnumerable<Section> GetSections() => TestData.Sections;
 
-        public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
+        public IEnumerable<ProductDto> GetProducts(ProductFilter productFilter = null)
         {
             List<Product> product = TestData.Products;
 
-            if (productFilter is null) return product;
+            if (productFilter is null) return product.Select(p => p.Map());
 
             if (productFilter.SectionId.HasValue)
                 product = product.Where(p => p.SectionId.Equals(productFilter.SectionId)).ToList();
@@ -27,12 +29,12 @@ namespace WebStore.Services
             if (productFilter.BrandId.HasValue)
                 product = product.Where(p => p.BrandId.Equals(productFilter.BrandId)).ToList();
 
-            return product;
+            return product.Select(p => p.Map());
         }
 
-        public Product GetProductById(int id)
+        public ProductDto GetProductById(int id)
         {
-            return TestData.Products.FirstOrDefault(p => p.Id == id);
+            return TestData.Products.FirstOrDefault(p => p.Id == id).Map();
         }
 
         public int GetBrandProductCount(int brandId)
@@ -40,28 +42,31 @@ namespace WebStore.Services
             return TestData.Products.Count(p => p.BrandId == brandId);
         }
 
-        public Product UpdateProduct(Product prod)
+        public ProductDto UpdateProduct(ProductDto prod)
         {
             Product oldProd = TestData.Products.FirstOrDefault(p => p.Id == prod.Id);
             oldProd.Name = prod.Name;
             oldProd.ImageUrl = prod.ImageUrl;
             oldProd.Order = prod.Order;
             oldProd.Price = prod.Price;
-            oldProd.BrandId = prod.BrandId;
-            oldProd.SectionId = prod.SectionId;
-            return oldProd;
+            oldProd.BrandId = prod.Brand?.Id;
+            oldProd.SectionId = prod.Section.Id;
+            return oldProd.Map();
         }
 
-        public Product AddProduct(Product prod)
+        public ProductDto AddProduct(ProductDto product)
         {
+            Product prod = product.Map();
+
             //определяем id
             prod.Id = TestData.Products.Max(e => e.Id) + 1;
             TestData.Products.Add(prod);
-            return prod;
+            return prod.Map();
         }
 
-        public void DeleteProduct(Product prod)
+        public void DeleteProduct(int id)
         {
+            Product prod = TestData.Products.FirstOrDefault(p => p.Id == id);
             TestData.Products.Remove(prod);
         }
     }
