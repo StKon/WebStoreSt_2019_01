@@ -21,6 +21,7 @@ using WebStore.Clients.Values;
 using WebStore.Clients.Employees;
 using WebStore.Clients.Products;
 using WebStore.Clients.Orders;
+using WebStore.Clients.Users;
 
 namespace WebStore
 {
@@ -51,31 +52,42 @@ namespace WebStore
             services.AddTransient<IValuesService, ValuesClient>();
 
             //регистрация сервиса работы с сотрудниками
-            //services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();   //один объект на всю систему  
             services.AddTransient<IEmployeesData, EmployeesClient>();
 
             //регистрация сервиса работы с товарами
-            //services.AddSingleton<IProductData, InMemoryProductData>();   //один объект на всю систему         
-
-            //регистрируем сервис SQLProductData
-            //services.AddScoped<IProductData, SQLProductData>();
             services.AddTransient<IProductData, ProductsClient>();
 
             //регистрируем сервис работы с корзиной
             services.AddScoped<ICartService, CookieCartService>();
 
             //регистрируем сервис работы с заказами
-            //services.AddScoped<IOrdersService, SQLOrdersService>();
             services.AddTransient<IOrdersService, OrdersClient>();
 
             //регистрируем контекст как сервис использую строку соединения
-            services.AddDbContext<WebStoryContext>(opt =>
-            {
-                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            });
+            //services.AddDbContext<WebStoryContext>(opt =>
+            //{
+            //    opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            //});
 
             //регистрируем авторизацию
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<WebStoryContext>().AddDefaultTokenProviders();
+            services.AddIdentity<User, IdentityRole>()
+                //.AddEntityFrameworkStores<WebStoryContext>()
+                .AddDefaultTokenProviders();
+
+            #region identity
+
+            services.AddTransient<IUserStore<User>, UsersClient>();
+            services.AddTransient<IUserRoleStore<User>, UsersClient>();
+            services.AddTransient<IUserClaimStore<User>, UsersClient>();
+            services.AddTransient<IUserPasswordStore<User>, UsersClient>();
+            services.AddTransient<IUserTwoFactorStore<User>, UsersClient>();
+            services.AddTransient<IUserEmailStore<User>, UsersClient>();
+            services.AddTransient<IUserPhoneNumberStore<User>, UsersClient>();
+            services.AddTransient<IUserLoginStore<User>, UsersClient>();
+            services.AddTransient<IUserLockoutStore<User>, UsersClient>();
+            services.AddTransient<IRoleStore<IdentityRole>, RolesClient>();
+
+            #endregion
 
             //Конфигурация пароля и пользователя
             services.Configure<IdentityOptions>(opt =>

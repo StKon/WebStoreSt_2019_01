@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebStore.Clients.Base
 {
-    public abstract class BaseClient
+    public abstract class BaseClient : IDisposable
     {
         protected readonly HttpClient _client;       //клиент
         public string ServicesAddress { set; get; }  //адрес сервера
@@ -35,9 +35,9 @@ namespace WebStore.Clients.Base
         protected async Task<T> GetAsync<T>(string url, CancellationToken cancel = default(CancellationToken)) where T : new()
         {
             var list = new T();
-            var response = await _client.GetAsync(url, cancel);
+            var response = await _client.GetAsync(url, cancel).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
-                list = await response.Content.ReadAsAsync<T>(cancel);
+                list = await response.Content.ReadAsAsync<T>(cancel).ConfigureAwait(false);
             return list;
         }
 
@@ -48,7 +48,7 @@ namespace WebStore.Clients.Base
 
         protected async Task<HttpResponseMessage> PostAsync<T>(string url, T value, CancellationToken cancel = default(CancellationToken))
         {
-            var response = await _client.PostAsJsonAsync(url, value, cancel);
+            var response = await _client.PostAsJsonAsync(url, value, cancel).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return response;
         }
@@ -60,7 +60,7 @@ namespace WebStore.Clients.Base
 
         protected async Task<HttpResponseMessage> PutAsync<T>(string url, T value, CancellationToken cancel = default(CancellationToken))
         {
-            var response = await _client.PutAsJsonAsync(url, value, cancel);
+            var response = await _client.PutAsJsonAsync(url, value, cancel).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return response;
         }
@@ -72,8 +72,14 @@ namespace WebStore.Clients.Base
 
         protected async Task<HttpResponseMessage> DeleteAsync(string url, CancellationToken cancel = default(CancellationToken))
         {
-            var response = await _client.DeleteAsync(url, cancel);
+            var response = await _client.DeleteAsync(url, cancel).ConfigureAwait(false);
             return response;
         }
+
+        #region IDisposable
+
+        public void Dispose() => _client.Dispose();
+
+        #endregion
     }
 }

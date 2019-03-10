@@ -40,10 +40,8 @@ namespace WebStore.ServiceHosting
             //регистрация сервиса работы с сотрудниками
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();   //один объект на всю систему  
 
-            //регистрация сервиса работы с товарами
+            //регистрируем сервис работы с товарами 
             //services.AddSingleton<IProductData, InMemoryProductData>();   //один объект на всю систему         
-
-            //регистрируем сервис работы с товарами SQLProductData
             services.AddScoped<IProductData, SQLProductData>();
 
             //регистрируем сервис работы с заказами
