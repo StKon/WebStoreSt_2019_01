@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WebStore.Domain.Entities;
 using WebStore.ViewModels;
 
@@ -13,12 +14,14 @@ namespace WebStore.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ILogger<AccountController> _logger;
 
         /// <summary> Конструктор передать сервисы </summary>
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -30,10 +33,15 @@ namespace WebStore.Controllers
             //проверка валидации
             if (!ModelState.IsValid) return View(model);
 
+            //Логирование (регистрируем событие)
+            _logger.LogInformation(new EventId(0, "Login"), $"Попытка входа пользователя {model.UserName} в систему");
+
             //проверяем login и пароль
             var login_result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
             if(login_result.Succeeded)   //успешно
             {
+                _logger.LogInformation(new EventId(1, "Login"), $"Пользователь {model.UserName} успешно вошел в систему");
+
                 //Зарегистрировались с локального адреса - отправляем на этот адрес
                 if (Url.IsLocalUrl(model.ReturnUrl))
                     return Redirect(model.ReturnUrl);
@@ -41,7 +49,9 @@ namespace WebStore.Controllers
                 //иначе на главную страницу
                 return RedirectToAction("Index", "Home");
             }
-
+                       
+            _logger.LogWarning(new EventId(1, "Login"), $"Попытка входа пользователя {model.UserName} в систему провалена");
+            
             //добавляем ошибку
             ModelState.AddModelError("", "Неверно имя или пароль пользователя");
             return View(model);
