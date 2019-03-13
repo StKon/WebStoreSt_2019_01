@@ -23,6 +23,8 @@ using WebStore.Clients.Products;
 using WebStore.Clients.Orders;
 using WebStore.Clients.Users;
 using Microsoft.Extensions.Logging;
+using WebStore.Logger;
+using WebStore.Services.Middleware;
 
 namespace WebStore
 {
@@ -122,10 +124,9 @@ namespace WebStore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //log.AddConsole();  //добавлена консоль
-            //log.AddDebug();    //в окно отладки
+            loggerFactory.AddLog4Net();  //добавлена логирование log4net            
 
             if (env.IsDevelopment())
             {
@@ -140,6 +141,12 @@ namespace WebStore
 
             //используем аутентификацию
             app.UseAuthentication();
+
+            //Обработка ошибок
+            app.UseStatusCodePagesWithRedirects("~/home/ErrorStatus/{0}");
+
+            //логирование исключений
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             //Добавляем обработку запросов в mvc-формате
             app.UseMvc(routes =>

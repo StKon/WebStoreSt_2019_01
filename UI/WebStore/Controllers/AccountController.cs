@@ -50,7 +50,7 @@ namespace WebStore.Controllers
                 return RedirectToAction("Index", "Home");
             }
                        
-            _logger.LogWarning(new EventId(1, "Login"), $"Попытка входа пользователя {model.UserName} в систему провалена");
+            _logger.LogWarning(new EventId(2, "Login"), $"Попытка входа пользователя {model.UserName} в систему провалена");
             
             //добавляем ошибку
             ModelState.AddModelError("", "Неверно имя или пароль пользователя");
