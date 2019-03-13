@@ -17,23 +17,23 @@ namespace WebStore
         public static void Main(string[] args)
         {
             //конфигурация log4net
-            //var log4netConfig = new XmlDocument();
-            //var configFileName = "log4net.config";
+            var log4netConfig = new XmlDocument();
+            var configFileName = "log4net.config";
 
             //var fileInfo = new FileInfo(configFileName);  //информация о файле
             
-            //log4netConfig.Load(configFileName);  //загружаем XML
-            //var repository = LogManager.CreateRepository(
-            //    Assembly.GetEntryAssembly(), 
-            //    typeof(log4net.Repository.Hierarchy.Hierarchy));
+            log4netConfig.Load(configFileName);  //загружаем XML
+            var repository = LogManager.CreateRepository(
+                Assembly.GetEntryAssembly(), 
+                typeof(log4net.Repository.Hierarchy.Hierarchy));
 
             //конфигурируем
-            //log4net.Config.XmlConfigurator.Configure(repository, log4netConfig["log4net"]);
+            log4net.Config.XmlConfigurator.Configure(repository, log4netConfig["log4net"]);
 
-            //log4net.ILog log = log4net.LogManager.GetLogger(typeof(Program));
+            log4net.ILog log = log4net.LogManager.GetLogger(typeof(Program));
 
-            //log.Info("Приложение запущено");
-
+            log.Info("Приложение запущено...");
+            
             CreateWebHostBuilder(args).Build().Run();
         }
 
