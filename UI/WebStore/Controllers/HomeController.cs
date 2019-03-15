@@ -31,5 +31,12 @@ namespace WebStore.Controllers
         public IActionResult ErrorPage404() => View();
 
         public IActionResult ValuesServiceTest([FromServices] IValuesService valuesService) => View(valuesService.Get());
+
+        public IActionResult ErrorStatus(string id)
+        {
+            if (id == "404")
+                return RedirectToAction("ErrorPage404");
+            return Content($"Статуcный код ошибки: {id} ");
+        }
     }
 }

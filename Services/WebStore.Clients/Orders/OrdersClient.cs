@@ -9,18 +9,24 @@ using WebStore.Interfaces;
 using WebStore.ViewModels;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
+using Microsoft.Extensions.Logging;
 
 namespace WebStore.Clients.Orders
 {
     public class OrdersClient : BaseClient, IOrdersService
     {
-        public OrdersClient(IConfiguration configuration) : base(configuration)
+        private readonly ILogger<OrdersClient> _logger;
+
+        public OrdersClient(IConfiguration configuration, ILogger<OrdersClient> logger) : base(configuration)
         {
             ServicesAddress = "api/orders";
+            _logger = logger;
         }
 
-        public OrderDto CreateOrder(CreateOrderModel orderModel, string userName)
+        public OrderDto CreateOrder(CreateOrderModel orderModel, string userName) 
         {
+            _logger.LogInformation($"Создание заказа для {userName}");
+
             var url = $"{ServicesAddress}/{userName}";
             var response = Post(url, orderModel);
             var result = response.Content.ReadAsAsync<OrderDto>().Result;

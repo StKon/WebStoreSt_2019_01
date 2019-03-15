@@ -7,6 +7,7 @@ using WebStore.Interfaces;
 using WebStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using WebStore.Domain.Dto;
+using Microsoft.Extensions.Logging;
 
 namespace WebStore.Controllers
 {
@@ -59,7 +60,7 @@ namespace WebStore.Controllers
 
         /// <summary> Оформление заказа </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Checkout(OrderViewModel model)
+        public IActionResult Checkout(OrderViewModel model, [FromServices] ILogger<CartController> logger)
         {
             if (!ModelState.IsValid)
             {
@@ -70,6 +71,8 @@ namespace WebStore.Controllers
                 };
                 return View("Details", detailsModel);
             }
+
+            logger.LogInformation("Оформление заказа ...");
 
             var createOrderModel = new CreateOrderModel
             {
