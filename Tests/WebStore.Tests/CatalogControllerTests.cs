@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 using WebStore.Controllers;
 using WebStore.Interfaces;
 using WebStore.Domain;
-
-using Assert = Xunit.Assert;
 using WebStore.Domain.Dto;
 using WebStore.ViewModels;
 using WebStore.Domain.Entities.Filters;
+
+using Assert = Xunit.Assert;
 
 namespace WebStore.Tests
 {
@@ -98,8 +98,13 @@ namespace WebStore.Tests
                         ImageUrl = "Image1.jpg",
                         Brand = new BrandDto
                         {
-                            Id = 1,
-                            Name = "Brand 1"
+                            Id = 5,
+                            Name = "Brand 5"
+                        },
+                        Section = new SectionDto
+                        {
+                            Id = 10,
+                            Name = "Section 10"
                         }
                     },
                     new ProductDto
@@ -111,8 +116,13 @@ namespace WebStore.Tests
                         ImageUrl = "Image2.jpg",
                         Brand = new BrandDto
                         {
-                            Id = 1,
-                            Name = "Brand 1"
+                            Id = 5,
+                            Name = "Brand 5"
+                        },
+                        Section = new SectionDto
+                        {
+                            Id = 10,
+                            Name = "Section 10"
                         }
                     }
                 });
