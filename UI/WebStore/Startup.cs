@@ -61,6 +61,7 @@ namespace WebStore
             services.AddTransient<IProductData, ProductsClient>();
 
             //регистрируем сервис работы с корзиной
+            services.AddScoped<ICartStore, CookieCartStore>();
             services.AddScoped<ICartService, CookieCartService>();
 
             //регистрируем сервис работы с заказами
