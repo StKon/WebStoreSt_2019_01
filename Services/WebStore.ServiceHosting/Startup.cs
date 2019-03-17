@@ -50,6 +50,7 @@ namespace WebStore.ServiceHosting
 
             //регистрируем сервис работы с корзиной
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<ICartStore, CookieCartStore>();
             services.AddScoped<ICartService, CookieCartService>();
 
             //регистрируем авторизацию
