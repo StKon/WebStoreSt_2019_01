@@ -12,6 +12,7 @@ namespace WebStore.TagHelpers
     public class ActiveRouteTagHelper : TagHelper
     {
         public const string ActiveRouteAttributeName = "is-active-route";
+        public const string IgnoreActiveAttributeName = "ignore-action";   //Анализируем только контроллер
 
         //действие
         [HtmlAttributeName("asp-action")]
@@ -40,18 +41,23 @@ namespace WebStore.TagHelpers
         {
             base.Process(context, output);
 
+            //не проверяем Action
+            //bool ignoreAction = context.AllAttributes.TryGetAttribute(IgnoreActiveAttributeName, out var _att);
+            bool ignoreAction = context.AllAttributes.ContainsName(IgnoreActiveAttributeName);
+
             //текущий элемент активный? 
-            if (ShouldBeActive())
+            if (ShouldBeActive(ignoreAction))
             {
                 MakeActive(output);
             }
 
             //удалить атрибут из разметки
             output.Attributes.RemoveAll(ActiveRouteAttributeName);
+            output.Attributes.RemoveAll(IgnoreActiveAttributeName);
         }
 
         //текущий элемент активный?
-        private bool ShouldBeActive()
+        private bool ShouldBeActive(bool ignoreAction)
         {
             //путь запроса
             var route_values = ViewContext.RouteData.Values;
@@ -70,7 +76,7 @@ namespace WebStore.TagHelpers
 
             //проверяем текущее действие
             //if (!string.IsNullOrWhiteSpace(Action) && !string.Equals(Action, currentAction, StringComparison.CurrentCultureIgnoreCase))
-            if (Action?.Equals(currentAction, StringComparison.CurrentCultureIgnoreCase) == false)
+            if (!ignoreAction && (Action?.Equals(currentAction, StringComparison.CurrentCultureIgnoreCase) == false))
             {
                 return false;
             }

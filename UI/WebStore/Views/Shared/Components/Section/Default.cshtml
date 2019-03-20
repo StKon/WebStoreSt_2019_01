@@ -1,11 +1,11 @@
-﻿@model IEnumerable<SectionViewModel>
+﻿@model SectionCompleteViewModel
 
 <h2>Категории</h2>
 
 <div class="panel-group category-products" id="accordian">
     <!--category-productsr-->
 
-    @foreach (var section in Model)
+    @foreach (var section in Model.Sections)
     {
         if (section.ChildSections.Count > 0)
         {
@@ -18,13 +18,17 @@
                         </a>
                     </h4>
                 </div>
-                <div id=@(section.Name.ToLower()) class="panel-collapse collapse">
+                <div id=@(section.Name.ToLower()) class="panel-collapse collapse @(section.Id == Model.CurrentParentSectionId ? " in" : null)">
                     <div class="panel-body">
                         <ul>
                             @foreach (var section_child in section.ChildSections)
                             {
                                 @*<li><a href="#">@(section_child.Name) </a></li>*@
-                                <li><a asp-controller="Catalog" asp-action="Shop" asp-route-sectionId="@(section_child.Id)">@(section_child.Name) </a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li @(section_child.Id == Model.CurrentSectionId ? "class=active" : null )>
+                                    <a asp-controller="Catalog" asp-action="Shop" asp-route-sectionId="@(section_child.Id)">@(section_child.Name) </a>
+                                </li>
                             }
                         </ul>
                     </div>
@@ -35,8 +39,10 @@
         {
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    @*<h4 class="panel-title"><a href="#">@(section.Name)</a></h4>*@
-                    <h4 class="panel-title"><a asp-controller="Catalog" asp-action="Shop" asp-route-sectionId="@(section.Id)">@(section.Name)</a></h4>
+                    @*<h4 class="panel-title"><a href="#">@(section.Name)</a></h4>*@<h4 class="panel-title"><a href="#"></a></h4><h4 class="panel-title"><a href="#"></a></h4>
+                    <h4 class="panel-title">
+                        <a asp-controller="Catalog" asp-action="Shop" asp-route-sectionId="@(section.Id)">@(section.Name)</a>
+                    </h4>
                 </div>
             </div>
         }

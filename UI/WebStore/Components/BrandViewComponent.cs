@@ -19,13 +19,19 @@ namespace WebStore.Components
             _productData = productData;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(string brandId)
         {
-            var brand = GetBrands();
-            return View(brand);
+            var _brandId = int.TryParse(brandId, out var id) ? id : (int?)null;  //выбранный бренд
+
+            var brand = GetBrands(_brandId);
+            return View(new BrandCompleteViewModel
+            {
+                Brands = brand,
+                CurrentBrandId = _brandId
+            });
         }
 
-        private List<BrandViewModel> GetBrands()
+        private List<BrandViewModel> GetBrands(int? brandId)
         {
             var brands = _productData.GetBrands();
             var brand_views = brands.Select(br => new BrandViewModel
@@ -33,10 +39,12 @@ namespace WebStore.Components
                 Id = br.Id,
                 Name = br.Name,
                 Order = br.Order,
-                ProductsCount =  _productData.GetBrandProductCount(br.Id)
+                ProductsCount = _productData.GetBrandProductCount(br.Id)
             }).ToList();
+
             //сортировка списка
             brand_views.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
+
             return brand_views;
         }
     }
