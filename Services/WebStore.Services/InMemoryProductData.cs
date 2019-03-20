@@ -15,7 +15,17 @@ namespace WebStore.Services
     {
         public IEnumerable<Brand> GetBrands() => TestData.Brands;
 
+        public Brand GetBrandById(int id)
+        {
+            return TestData.Brands.FirstOrDefault(s => s.Id == id);
+        }
+
         public IEnumerable<Section> GetSections() => TestData.Sections;
+
+        public Section GetSectionById(int id)
+        {
+            return TestData.Sections.FirstOrDefault(s => s.Id == id);
+        }
 
         public IEnumerable<ProductDto> GetProducts(ProductFilter productFilter = null)
         {

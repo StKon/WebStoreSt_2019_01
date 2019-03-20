@@ -14,8 +14,14 @@ namespace WebStore.Interfaces
         /// <summary> Возвращает бренды </summary>
         IEnumerable<Brand> GetBrands();
 
+        /// <summary> Бренд по Id </summary>
+        Brand GetBrandById(int id);
+
         /// <summary> Возвращает секции </summary>
         IEnumerable<Section> GetSections();
+
+        /// <summary> Секция по Id </summary>
+        Section GetSectionById(int id);
 
         /// <summary> Возвращает товары </summary>
         /// <returns></returns>

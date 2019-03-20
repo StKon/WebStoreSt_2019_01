@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "_Layout";
+
+    // Получаем тип для бренда или секции
+    var type = Context.Request.Query.ContainsKey("sectionId")
+        ? BreadCrumbType.Section
+        : Context.Request.Query.ContainsKey("brandId")
+            ? BreadCrumbType.Brand
+            : BreadCrumbType.None;
+
+    // Устанавливаем предыдущий тип
+    var fromType = BreadCrumbType.Section;
+
+    // Если это метод деталей товара
+    if ((string)ViewContext.RouteData.Values["action"] == nameof(WebStore.Controllers.CatalogController.ProductDetails))
+    {
+        // Устанавливаем тип товар
+        type = BreadCrumbType.Item;
+    }
+
+    //идентификатор объекта
+    var id = 0;
+
+    switch (type)
+    {
+        case BreadCrumbType.None:
+            break;
+        case BreadCrumbType.Section:
+            id = int.Parse(Context.Request.Query["sectionId"].ToString()); //из строки запроса
+            break;
+        case BreadCrumbType.Brand:
+            id = int.Parse(Context.Request.Query["brandId"].ToString());  //из строки запроса
+            break;
+        case BreadCrumbType.Item:
+            // Если есть ключ того, что пришли с бренда, ставим источник – бренд
+            if (Context.Request.Query.ContainsKey("fromBrand"))
+            {
+                fromType = BreadCrumbType.Brand;
+            }
+            id = int.Parse(ViewContext.RouteData.Values["id"].ToString());
+            break;
+        default:
+            throw new ArgumentOutOfRangeException();
+    }
+}
+
+@*передаем параметры*@
+@(await Component.InvokeAsync("BreadCrumbs", new { type, id, fromType }))
+
+@RenderBody()
+
