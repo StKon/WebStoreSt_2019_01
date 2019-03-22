@@ -32,9 +32,19 @@ namespace WebStore.Services
             return _db.Brands.AsEnumerable();
         }
 
+        public Brand GetBrandById(int id)
+        {
+            return _db.Brands.FirstOrDefault(s => s.Id == id);
+        }
+
         public IEnumerable<Section> GetSections()
         {
             return _db.Sections.AsEnumerable();
+        }
+
+        public Section GetSectionById(int id)
+        {
+            return _db.Sections.FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<ProductDto> GetProducts(ProductFilter productFilter = null)

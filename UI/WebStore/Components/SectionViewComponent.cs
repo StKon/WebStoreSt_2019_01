@@ -21,14 +21,24 @@ namespace WebStore.Components
             _productData = productData;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+
+        public async Task<IViewComponentResult> InvokeAsync(string sectionId)
         {
-            var section = GetSections();
-            return  View(section);
+            var _sectionId = int.TryParse(sectionId, out var id) ? id : (int?) null;  //выбранная секция
+
+            var section = GetSections(_sectionId, out var _parentSectionId);
+            return  View(new SectionCompleteViewModel()
+            {
+                Sections = section,
+                CurrentSectionId = _sectionId,
+                CurrentParentSectionId = _parentSectionId
+            });
         }
 
-        private List<SectionViewModel> GetSections()
+        private List<SectionViewModel> GetSections(int? sectionId, out int? parentSectionId)
         {
+            parentSectionId = null;
+
             var sections = _productData.GetSections();
             var parent = sections.Where(p => p.ParentId is null).ToArray();  //все родительские секции (без родителя)
 
@@ -38,6 +48,7 @@ namespace WebStore.Components
                     Id = parent_section.Id,
                     Name = parent_section.Name,
                     Order = parent_section.Order,
+                    ParentSection = null
                 }).ToList();
 
             //по родительским секциям
@@ -47,6 +58,9 @@ namespace WebStore.Components
                 var childs = sections.Where(section => section.ParentId == parent_view.Id);
                 //преобразуем детей в SectionViewModel
                 foreach (var child_section in childs)
+                {
+                    if (child_section.Id == sectionId) parentSectionId = child_section.ParentId;  //родитедь выбранной секции
+
                     parent_view.ChildSections.Add(new SectionViewModel
                     {
                         Id = child_section.Id,
@@ -54,6 +68,7 @@ namespace WebStore.Components
                         Order = child_section.Order,
                         ParentSection = parent_view  //родитель в дочерней секции
                     });
+                }
                 //сортировка списка детей
                 parent_view.ChildSections.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
             }

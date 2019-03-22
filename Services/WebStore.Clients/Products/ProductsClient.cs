@@ -47,6 +47,13 @@ namespace WebStore.Clients.Products
             return result;
         }
 
+        public Brand GetBrandById(int id)
+        {
+            var url = $"{ServicesAddress}/brands/{id}";
+            var result = Get<Brand>(url);
+            return result;
+        }
+
         public ProductDto GetProductById(int id)
         {
             var url = $"{ServicesAddress}/{id}";
@@ -67,6 +74,13 @@ namespace WebStore.Clients.Products
         {
             var url = $"{ServicesAddress}/sections";
             var result = Get<List<Section>>(url);
+            return result;
+        }
+
+        public Section GetSectionById(int id)
+        {
+            var url = $" {ServicesAddress}/sections/{id}";
+            var result = Get<Section>(url);
             return result;
         }
 

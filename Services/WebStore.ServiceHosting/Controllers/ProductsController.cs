@@ -44,6 +44,12 @@ namespace WebStore.ServiceHosting.Controllers
             return _productData.GetBrands();
         }
 
+        [HttpGet("brands/{id}")]
+        public Brand GetBrandById(int id)
+        {
+            return _productData.GetBrandById(id);
+        }
+
         [HttpGet("{id}"), ActionName("Get")]
         public ProductDto GetProductById(int id)
         {
@@ -60,6 +66,12 @@ namespace WebStore.ServiceHosting.Controllers
         public IEnumerable<Section> GetSections()
         {
             return _productData.GetSections();
+        }
+
+        [HttpGet("sections/{id}")]
+        public Section GetSectionById(int id)
+        {
+            return _productData.GetSectionById(id);
         }
 
         [HttpPut]
