@@ -8,6 +8,9 @@ Cart = {
 
         // Ссылка на получение представления корзины (на сервере)
         getCartViewLink: '',
+
+        // Ссылка на удаление товара из корзины
+        removeFromCartLink: ''
     },
 
     // Инициализация логики
@@ -16,13 +19,16 @@ Cart = {
         $.extend(Cart._properties, properties);
 
         // Инициализируем перехват события
-        Cart.initAddToCart();
+        Cart.initEvents();
     },
 
     // Перехват нажатия на кнопку «Добавить в корзину»
-    initAddToCart: function () {
+    initEvents: function () {
         //найти элементы <a> с классом callAddToCart и подцепить метод addToCart по клику (с помощью jQuery)
         $('a.callAddToCart').on("click", Cart.addToCart);
+
+        //удаление товара из корзины
+        $('a.cart_quantity_delete').on("click", Cart.removeFromCart);
     },
 
     // Событие добавления товара в корзину
@@ -81,5 +87,33 @@ Cart = {
         setTimeout(function () {
             button.tooltip('destroy');
         }, 500);
+    },
+
+    //удаление товара из корзины
+    removeFromCart: function (event) {
+        //текущий элемент
+        var button = $(this);
+
+        // Отменяем дефолтное действие
+        event.preventDefault();
+
+        // Получение идентификатора из атрибута
+        var id = button.data('id');
+
+        // Вызов метода контроллера ajax запрос
+        $.get(Cart._properties.removeFromCartLink + '/' + id)
+            .done(function () {
+
+                //удалить текущий элемент <tr> - строку
+                button.closest('tr').remove();
+
+                // В случае успеха – обновляем представление
+                Cart.refreshCartView();
+            })
+            .fail(function () {
+                //вывод на консоль в лог
+                console.log('removeFromCart error');
+            });
     }
+
 };
