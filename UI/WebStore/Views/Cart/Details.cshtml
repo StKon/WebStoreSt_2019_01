@@ -39,16 +39,9 @@
                             </td>
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
-                                    <a class="cart_quantity_up"
-                                       asp-controller="Cart"
-                                       asp-action="AddToCart"
-                                       asp-route-id="@item.Key.Id"
-                                       asp-route-returnUrl="@(Context.Request.Path)">+</a>
+                                    <a class="cart_quantity_up callAddToCart" href="#" data-id="@item.Key.Id">+</a>
                                     <input class="cart_quantity_input" type="text" name="quantity" value="@item.Value" autocomplete="off" size="2">
-                                    <a class="cart_quantity_down"
-                                       asp-controller="Cart"
-                                       asp-action="DecrementFromCart"
-                                       asp-route-id="@item.Key.Id">-</a>
+                                    <a class="cart_quantity_down" href="#" data-id="@item.Key.Id">-</a>
                                 </div>
                             </td>
                             <td class="cart_total">
