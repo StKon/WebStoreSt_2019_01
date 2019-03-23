@@ -10,7 +10,10 @@ Cart = {
         getCartViewLink: '',
 
         // Ссылка на удаление товара из корзины
-        removeFromCartLink: ''
+        removeFromCartLink: '',
+
+        // Ссылка на уменьшение количества товаров
+        decrementLink: ''
     },
 
     // Инициализация логики
@@ -29,6 +32,14 @@ Cart = {
 
         //удаление товара из корзины
         $('a.cart_quantity_delete').on("click", Cart.removeFromCart);
+
+        // Кнопка «+»
+        //$('.cart_quantity_up').on('click', Cart.incrementItem);
+        $('.cart_quantity_up').click(Cart.incrementItem);
+
+        // Кнопка «-»
+        //$('.cart_quantity_down').on('click', Cart.decrementItem);
+        $('.cart_quantity_down').click(Cart.decrementItem);
     },
 
     // Событие добавления товара в корзину
@@ -114,6 +125,128 @@ Cart = {
                 //вывод на консоль в лог
                 console.log('removeFromCart error');
             });
-    }
+    },
 
+    // увеличение количества товара в корзине на 1
+    incrementItem: function (event) {
+        var button = $(this);
+
+        // Строка товара
+        var container = button.closest('tr');
+
+        // Отменяем дефолтное действие
+        event.preventDefault();
+
+        // Получение идентификатора из атрибута
+        var id = button.data('id');
+
+        // Вызов метода контроллера
+        $.get(Cart._properties.addToCartLink + '/' + id)
+            .done(function () {
+                // Получаем значение
+                var value = parseInt($('.cart_quantity_input', container).val());
+
+                // Увеличиваем его на 1
+                $('.cart_quantity_input', container).val(value + 1);
+
+                // Обновляем цену
+                Cart.refreshPrice(container);
+
+                // В случае успеха – обновляем представление
+                Cart.refreshCartView();
+            })
+            .fail(function () {
+                console.log('incrementItem error');
+            });
+    },
+
+    // уменьшение количества товара в корзине на 1
+    decrementItem: function () {
+        var button = $(this);
+
+        // Строка товара
+        var container = button.closest('tr');
+
+        // Отменяем дефолтное действие        
+        event.preventDefault();
+
+        // Получение идентификатора из атрибута
+        var id = button.data('id');
+
+        // Вызов метода контроллера
+        $.get(Cart._properties.decrementLink + '/' + id)
+            .done(function () {
+                //количество товара в строке
+                var value = parseInt($('.cart_quantity_input', container).val());
+
+
+                if (value > 1) {
+                    // Уменьшаем его на 1
+                    $('.cart_quantity_input', container).val(value - 1);
+
+                    //пересчет сумм
+                    Cart.refreshPrice(container);
+                }
+                else {
+                    //удалить строку
+                    container.remove();
+
+                    //пересчет сумм
+                    Cart.refreshTotalPrice();
+                }
+
+                // В случае успеха – обновляем представление
+                Cart.refreshCartView();
+            })
+            .fail(function () {
+                console.log('decrementItem error');
+            });
+    },
+
+    //пересчет суммы строки
+    refreshPrice: function (container) {
+        // Получаем количество
+        var quantity = parseInt($('.cart_quantity_input', container).val());
+
+        // Получаем цену
+        var price = parseFloat($('.cart_price', container).data('price'));
+
+        // Рассчитываем общую стоимость
+        var totalPrice = quantity * price;
+
+        // Для отображения в виде валюты
+        var value = totalPrice.toLocaleString('ru-RU', {
+            style: 'currency',
+            currency: 'RUB'
+        });
+
+        // Сохраняем стоимость для поля «Итого»        
+        $('.cart_total_price', container).data('price', totalPrice);
+
+        // Меняем значение
+        $('.cart_total_price', container).html(value);
+
+        //пересчет итоговой суммы
+        Cart.refreshTotalPrice();
+    },
+
+    //обновляет сумму заказа
+    refreshTotalPrice: function () {
+        var total = 0;
+
+        //беруться элементы с классом cart_total_price и цикл по ним
+        $('.cart_total_price').each(function () {
+            var price = parseFloat($(this).data('price'));
+            total += price;
+        });
+
+        // Для отображения в виде валюты
+        var value = total.toLocaleString('ru-RU', {
+            style: 'currency', currency:
+                'RUB'
+        });
+
+        // Меняем значение элемента с id
+        $('#totalOrderSum').html(value);
+    }
 };
