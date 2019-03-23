@@ -120,6 +120,9 @@ Cart = {
 
                 // В случае успеха – обновляем представление
                 Cart.refreshCartView();
+
+                //пересчет итоговой суммы
+                Cart.refreshTotalPrice();
             })
             .fail(function () {
                 //вывод на консоль в лог
