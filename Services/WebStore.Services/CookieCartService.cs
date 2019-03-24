@@ -87,7 +87,7 @@ namespace WebStore.Services
             var products = _productData.GetProducts(new ProductFilter()
             {
                 Ids = _cartStore.Cart.Items.Select(i => i.ProductId).ToList()  //список id товаров в корзине
-            }).Select(p => new ProductViewModel()  //во ViewModel
+            }).Products.Select(p => new ProductViewModel()  //во ViewModel
             {
                    Id = p.Id,
                    ImageUrl = p.ImageUrl,

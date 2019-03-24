@@ -272,16 +272,20 @@ namespace WebStore.Services.Tests
                 Items = new List<CartItem> { new CartItem { ProductId = 1, Quantity = 4 } }
             };
 
-            var products = new List<ProductDto>
+            var products = new PagedProductDto
             {
-                  new ProductDto
-                  {
-                      Id = 1,
-                      ImageUrl = "image.jpg",
-                      Name = "Test",
-                      Order = 0,
-                      Price = 1.11m,
-                  }
+                Products = new List<ProductDto>
+                {
+                      new ProductDto
+                      {
+                           Id = 1,
+                           ImageUrl = "image.jpg",
+                           Name = "Test",
+                           Order = 0,
+                           Price = 1.11m,
+                      }
+                },
+                TotalCount = 1
             };
 
             var product_data_mock = new Mock<IProductData>();

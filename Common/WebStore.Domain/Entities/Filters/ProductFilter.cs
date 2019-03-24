@@ -16,5 +16,11 @@ namespace WebStore.Domain.Entities.Filters
 
         /// <summary> Id товаров, которые надо отобразить </summary>
         public IEnumerable<int> Ids { get; set; }
+
+        /// <summary> Текущая страница </summary>
+        public int Page { get; set; }
+
+        /// <summary> Количество элементов на странице </summary>
+        public int? PageSize { get; set; }
     }
 }

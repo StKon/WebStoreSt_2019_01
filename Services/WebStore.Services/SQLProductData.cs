@@ -47,27 +47,40 @@ namespace WebStore.Services
             return _db.Sections.FirstOrDefault(s => s.Id == id);
         }
 
-        public IEnumerable<ProductDto> GetProducts(ProductFilter productFilter = null)
+        public PagedProductDto GetProducts(ProductFilter productFilter = null)
         {
-            if (productFilter is null)
-                return _db.Products
-                    .Include(p => p.Brand)
-                    .Include(p => p.Section)
-                    .Select(p => p.Map())
-                    .AsEnumerable();
-
-            IQueryable<Product> result = _db.Products
+            IQueryable<Product> query = _db.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Section)
                 .AsQueryable();
 
+            if (productFilter is null)
+                return new PagedProductDto { Products = query.Select(p => p.Map()).AsEnumerable(), TotalCount = query.Count() };
+                            
             if (productFilter.BrandId != null)
-                result = result.Where(p => p.BrandId == productFilter.BrandId);
+                query = query.Where(p => p.BrandId == productFilter.BrandId);
 
             if (productFilter.SectionId != null)
-                result = result.Where(p => p.SectionId == productFilter.SectionId);
+                query = query.Where(p => p.SectionId == productFilter.SectionId);
 
-            return result.Select(p => p.Map()).AsEnumerable();
+            var model = new PagedProductDto
+            {
+                TotalCount = query.Count()
+            };
+
+            if(productFilter.PageSize != null)
+            {
+                model.Products = query
+                    .Skip((productFilter.Page - 1) * productFilter.PageSize.Value)
+                    .Take(productFilter.PageSize.Value)
+                    .Select(p => p.Map())
+                    .AsEnumerable();
+            }
+            else
+            {
+                model.Products = query.Select(p => p.Map()).AsEnumerable();
+            }
+            return model;
         }
 
         public ProductDto GetProductById(int id)

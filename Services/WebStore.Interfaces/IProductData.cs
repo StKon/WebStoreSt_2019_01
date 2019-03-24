@@ -25,7 +25,10 @@ namespace WebStore.Interfaces
 
         /// <summary> Возвращает товары </summary>
         /// <returns></returns>
-        IEnumerable<ProductDto> GetProducts(ProductFilter productFilter = null);
+        //IEnumerable<ProductDto> GetProducts(ProductFilter productFilter = null);
+
+        /// <summary> Список товаров с постраничным разбиением </summary>
+        PagedProductDto GetProducts(ProductFilter filter = null);
 
         /// <summary> Товар по индексу </summary>
         ProductDto GetProductById(int id);

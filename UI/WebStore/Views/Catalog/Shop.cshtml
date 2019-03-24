@@ -22,6 +22,7 @@
 
                 @await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)
 
+                <paging page-model="@Model.PageModel" page-action="Shop" page-url-SectionId="@Model.SectionId" page-url-BrandId="@Model.BrandId"></paging>
             </div>
         </div>
     </div>

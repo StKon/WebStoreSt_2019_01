@@ -15,6 +15,7 @@ using WebStore.ViewModels;
 using WebStore.Domain.Entities.Filters;
 
 using Assert = Xunit.Assert;
+using Microsoft.Extensions.Configuration;
 
 namespace WebStore.Tests
 {
@@ -50,7 +51,9 @@ namespace WebStore.Tests
                     }
                 });
 
-            var catalog_controller = new CatalogController(product_data_mock.Object);
+            var configuration_mock = new Mock<IConfiguration>();
+
+            var catalog_controller = new CatalogController(product_data_mock.Object, configuration_mock.Object);
             var result = catalog_controller.ProductDetails(expected_id);
 
             var view_result = Assert.IsType<ViewResult>(result);
@@ -73,7 +76,9 @@ namespace WebStore.Tests
                 .Setup(p => p.GetProductById(It.IsAny<int>()))
                 .Returns((ProductDto)null);
 
-            var catalog_controller = new CatalogController(product_data_mock.Object);
+            var configuration_mock = new Mock<IConfiguration>();
+
+            var catalog_controller = new CatalogController(product_data_mock.Object, configuration_mock.Object);
             var result = catalog_controller.ProductDetails(-1);
             var not_fount_result = Assert.IsType<NotFoundResult>(result);
         }
@@ -87,47 +92,53 @@ namespace WebStore.Tests
             var product_data_mock = new Mock<IProductData>();
             product_data_mock
                 .Setup(p => p.GetProducts(It.IsAny<ProductFilter>()))
-                .Returns<ProductFilter>(filter => new[]
+                .Returns<ProductFilter>(filter => new PagedProductDto
                 {
-                    new ProductDto
+                    Products = new[]
                     {
-                        Id = 1,
-                        Name = "Product 1",
-                        Order = 1,
-                        Price = 10,
-                        ImageUrl = "Image1.jpg",
-                        Brand = new BrandDto
+                        new ProductDto
                         {
-                            Id = 5,
-                            Name = "Brand 5"
+                            Id = 1,
+                            Name = "Product 1",
+                            Order = 1,
+                            Price = 10,
+                            ImageUrl = "Image1.jpg",
+                            Brand = new BrandDto
+                            {
+                                Id = 5,
+                                Name = "Brand 5"
+                            },
+                            Section = new SectionDto
+                            {
+                                Id = 10,
+                                Name = "Section 10"
+                            }
                         },
-                        Section = new SectionDto
+                        new ProductDto
                         {
-                            Id = 10,
-                            Name = "Section 10"
+                            Id = 2,
+                            Name = "Product 2",
+                            Order = 2,
+                            Price = 20,
+                            ImageUrl = "Image2.jpg",
+                            Brand = new BrandDto
+                            {
+                                Id = 5,
+                                Name = "Brand 5"
+                            },
+                            Section = new SectionDto
+                            {
+                                Id = 10,
+                                Name = "Section 10"
+                            }
                         }
                     },
-                    new ProductDto
-                    {
-                        Id = 2,
-                        Name = "Product 2",
-                        Order = 2,
-                        Price = 20,
-                        ImageUrl = "Image2.jpg",
-                        Brand = new BrandDto
-                        {
-                            Id = 5,
-                            Name = "Brand 5"
-                        },
-                        Section = new SectionDto
-                        {
-                            Id = 10,
-                            Name = "Section 10"
-                        }
-                    }
+                    TotalCount = 2
                 });
 
-            var catalog_controller = new CatalogController(product_data_mock.Object);
+            var configuration_mock = new Mock<IConfiguration>();
+
+            var catalog_controller = new CatalogController(product_data_mock.Object, configuration_mock.Object);
 
             var result = catalog_controller.Shop(expected_section_id, expected_brand_id);
 
