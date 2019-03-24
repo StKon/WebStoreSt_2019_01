@@ -61,12 +61,12 @@ namespace WebStore.Clients.Products
             return result;
         }
 
-        public IEnumerable<ProductDto> GetProducts(ProductFilter productFilter = null)
+        public PagedProductDto GetProducts(ProductFilter productFilter = null)
         {
             var url = $"{ServicesAddress}";
             if (productFilter is null) productFilter = new ProductFilter();
             var response = Post<ProductFilter>(url, productFilter);
-            var result = response.Content.ReadAsAsync<IEnumerable<ProductDto>>().Result;
+            var result = response.Content.ReadAsAsync<PagedProductDto>().Result;
             return result;
         }
 

@@ -5,11 +5,11 @@
     Layout = "_LayoutBreadcrumbs";
 }
 
-<section id="advertisement">
+@*<section id="advertisement">
     <div class="container">
         <img src="~/images/shop/advertisement.jpg" alt="" />
     </div>
-</section>
+</section>*@
 
 <section>
     <div class="container">
@@ -22,6 +22,7 @@
 
                 @await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)
 
+                <paging page-model="@Model.PageModel" page-action="Shop" page-url-SectionId="@Model.SectionId" page-url-BrandId="@Model.BrandId"></paging>
             </div>
         </div>
     </div>

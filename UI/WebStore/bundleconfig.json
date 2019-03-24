@@ -17,7 +17,8 @@
     "outputFileName": "wwwroot/js/site.js",
     "inputFiles": [
       "wwwroot/js/main.css",
-      "wwwroot/js/price-range.js"
+      "wwwroot/js/price-range.js",
+      "wwwroot/js/cart/CartLogic"
     ],
     "minify": {
       "enabled": true,

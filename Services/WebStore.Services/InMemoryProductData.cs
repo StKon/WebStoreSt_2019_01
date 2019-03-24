@@ -27,11 +27,11 @@ namespace WebStore.Services
             return TestData.Sections.FirstOrDefault(s => s.Id == id);
         }
 
-        public IEnumerable<ProductDto> GetProducts(ProductFilter productFilter = null)
+        public PagedProductDto GetProducts(ProductFilter productFilter = null)
         {
             List<Product> product = TestData.Products;
 
-            if (productFilter is null) return product.Select(p => p.Map());
+            if (productFilter is null) return new PagedProductDto { Products = product.Select(p => p.Map()), TotalCount = product.Count };
 
             if (productFilter.SectionId.HasValue)
                 product = product.Where(p => p.SectionId.Equals(productFilter.SectionId)).ToList();
@@ -39,8 +39,8 @@ namespace WebStore.Services
             if (productFilter.BrandId.HasValue)
                 product = product.Where(p => p.BrandId.Equals(productFilter.BrandId)).ToList();
 
-            return product.Select(p => p.Map());
-        }
+            return new PagedProductDto { Products = product.Select(p => p.Map()), TotalCount = product.Count };
+        } 
 
         public ProductDto GetProductById(int id)
         {

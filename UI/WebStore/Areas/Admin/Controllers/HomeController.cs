@@ -38,7 +38,7 @@ namespace WebStore.Areas.Admin.Controllers
                 sortOrder = sortOrder + "_desc";
             //else if(ViewBag.SortOrder == (sortOrder + "_desc"))
 
-            var prod = _productData.GetProducts().Select(p => p.Map());
+            var prod = _productData.GetProducts().Products.Select(p => p.Map());
 
             //ФИЛЬТР
             if (! string.IsNullOrEmpty(searchString))
