@@ -84,5 +84,38 @@ namespace WebStore.Controllers
                 Section = product.Section?.Name ?? string.Empty
             });            
         }
+
+        /// <summary> получить частичное представление страницы товаров с фильтрами </summary>
+        public IActionResult GetFilteredItems(int? sectionId, int? brandId, int page = 1)
+        {
+            var productsModel = GetProducts(sectionId, brandId, page, out var totalCount);
+            return PartialView("Partial/_FeaturesItems", productsModel);
+        }
+
+        /// <summary> получить отфильтрованные товары </summary>
+        private IEnumerable<ProductViewModel> GetProducts(int? sectionId, int? brandId, int page, out int totalCount)
+        {
+            var products = _productData.GetProducts(new ProductFilter
+            {
+                BrandId = brandId,
+                SectionId = sectionId,
+                Page = page,
+                PageSize = int.Parse(_configuration["PageSize"])
+            });
+
+            totalCount = products.TotalCount;
+            return products.Products.Select(p => new ProductViewModel()
+            {
+                Id = p.Id,
+                ImageUrl = p.ImageUrl,
+                Name = p.Name,
+                Order = p.Order,
+                Price = p.Price,
+                BrandId = p.Brand?.Id ?? 0,
+                Brand = p.Brand?.Name ?? string.Empty,
+                SectionId = p.Section?.Id ?? 0,
+                Section = p.Section?.Name ?? string.Empty
+            }).ToList();
+        }
     }
 }

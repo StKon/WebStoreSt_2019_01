@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using WebStore.ViewModel;
+using System.Linq;
 
 namespace WebStore.TagHelpers
 {
@@ -18,7 +19,7 @@ namespace WebStore.TagHelpers
 
         //Контекст представления. Используется  для  прорисовки  представления.
         [ViewContext, HtmlAttributeNotBound]
-        public ViewContext ViewContext { get; set; }   
+        public ViewContext ViewContext { get; set; }
 
         //Модель страницы
         public PageViewModel PageModel { get; set; }
@@ -28,7 +29,7 @@ namespace WebStore.TagHelpers
 
         //Храняться дополнительные параметры пути
         [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
-        public Dictionary<string,object> PageUrlValues { get; set; } = new Dictionary<string, object>();
+        public Dictionary<string, object> PageUrlValues { get; set; } = new Dictionary<string, object>();
 
         public PagingTagHelper(IUrlHelperFactory urlHelperFactory)
         {
@@ -65,6 +66,9 @@ namespace WebStore.TagHelpers
             //текущая страница
             if (PageNumber == PageModel.PageNumber)
             {
+                //добавить аттрибут с номером текущей страницы
+                a.MergeAttribute("data-page", PageModel.PageNumber.ToString());
+
                 //добавить класс
                 li.AddCssClass("active");
             }
@@ -74,7 +78,16 @@ namespace WebStore.TagHelpers
                 PageUrlValues["page"] = PageNumber;
 
                 //атрибут в тег. Переход по PageAction и параметром из словаря
-                a.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
+                //a.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
+
+                //ссылка - заглушка
+                a.Attributes["href"] = "#";
+
+                //все параметры копируем в атрибуты с префиксом data
+                foreach (var pageUrlValue in PageUrlValues.Where(e => e.Value != null))
+                {
+                    a.MergeAttribute("data-" + pageUrlValue.Key, pageUrlValue.Value.ToString());
+                }
             }
 
             //текст тега "a" - номер страницы
