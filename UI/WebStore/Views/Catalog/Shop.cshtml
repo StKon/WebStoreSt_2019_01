@@ -6,10 +6,10 @@
 }
 
 @*<section id="advertisement">
-    <div class="container">
-        <img src="~/images/shop/advertisement.jpg" alt="" />
-    </div>
-</section>*@
+        <div class="container">
+            <img src="~/images/shop/advertisement.jpg" alt="" />
+        </div>
+    </section>*@
 
 <section>
     <div class="container">
@@ -19,11 +19,24 @@
             </div>
 
             <div class="col-sm-9 padding-right">
-
-                @await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)
-
+                <div id="itemsContainer">
+                    @await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)
+                </div>
                 <paging page-model="@Model.PageModel" page-action="Shop" page-url-SectionId="@Model.SectionId" page-url-BrandId="@Model.BrandId"></paging>
             </div>
         </div>
     </div>
 </section>
+
+@section scripts{
+    <script src="~/jquery-loading-overlay/loadingoverlay.min.js"></script>
+    <script src="~/js/shop/productItems.js"></script>
+
+    <script>
+        $(function() {
+            ProductItems.init({
+                getUrl : "@Url.Action("GetFilteredItems", "Catalog")"
+            });
+        });
+    </script>
+}

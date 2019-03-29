@@ -25,6 +25,7 @@ using WebStore.Clients.Users;
 using Microsoft.Extensions.Logging;
 using WebStore.Logger;
 using WebStore.Services.Middleware;
+using WebStore.Hubs;
 
 namespace WebStore
 {
@@ -50,6 +51,9 @@ namespace WebStore
         {
             //Добавляем сервисы, необходимые для mvc
             services.AddMvc();
+
+            //Подключить библиотеку SignalR 
+            services.AddSignalR();
 
             // Добавляем реализацию клиента
             services.AddTransient<IValuesService, ValuesClient>();
@@ -148,6 +152,9 @@ namespace WebStore
 
             //логирование исключений
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+
+            //подключение хаба
+            app.UseSignalR(routes => routes.MapHub<InformatilHub>("/info"));
 
             //Добавляем обработку запросов в mvc-формате
             app.UseMvc(routes =>

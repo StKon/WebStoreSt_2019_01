@@ -9,6 +9,8 @@ using WebStore.Domain.Entities.Filters;
 using WebStore.Interfaces;
 using System.Reflection;
 using WebStore.Services.Map;
+using WebStore.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebStore.Areas.Admin.Controllers
 {
@@ -27,16 +29,8 @@ namespace WebStore.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult ProductList(string sortOrder, string sortOrderOld, string searchString)
+        public IActionResult ProductList(string searchString)
         {
-            //СОРТИРОВКА
-            //Первый раз
-            if (sortOrder is null) sortOrder = "Id";
-            if (sortOrderOld is null) sortOrderOld = "";
-
-            if (sortOrder == sortOrderOld)
-                sortOrder = sortOrder + "_desc";
-            //else if(ViewBag.SortOrder == (sortOrder + "_desc"))
 
             var prod = _productData.GetProducts().Products.Select(p => p.Map());
 
@@ -45,40 +39,21 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 prod = prod.Where(p => p.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase));
             }
-            
-            
-            bool Flag = false;
-            if (sortOrder != "")
-            {
-                Type ObjProd = typeof(Product);
-                foreach (var p in ObjProd.GetProperties())
-                {
-                    //_property = p;
 
-                    if (sortOrder == p.Name)
-                    {
-                        ViewBag.SortOrder = sortOrder;
-                        prod = prod.OrderBy(e => p.GetValue(e));
-                        Flag = true;
-                        break;
-                    }
-                    else if (sortOrder == (p.Name + "_desc"))
-                    {
-                        ViewBag.SortOrder = sortOrder;
-                        prod = prod.OrderByDescending(e => p.GetValue(e));
-                        Flag = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!Flag)
+            var prodViewModel = prod.Select(p => new ProductViewModel
             {
-                sortOrder = "Id";
-                ViewBag.SortOrder = sortOrder;
-                prod.OrderBy(e => e.Id);
-            }
-            return View(prod);
+                Id = p.Id,
+                Name = p.Name,
+                ImageUrl = p.ImageUrl,
+                Order = p.Order,
+                Price = p.Price,
+                BrandId = p.BrandId ?? 0,
+                Brand = p.Brand?.Name ?? string.Empty,
+                SectionId = p.SectionId,
+                Section = p.Section?.Name ?? string.Empty
+            }).AsEnumerable();
+
+            return View(prodViewModel);
         }
 
         [HttpGet]
@@ -86,19 +61,49 @@ namespace WebStore.Areas.Admin.Controllers
         {
             Product prod = _productData.GetProductById(id).Map();
             if (prod is null) return NotFound();
-            return View(prod);
+
+            var notParentSections = _productData.GetSections().Where(s => s.ParentId != null);
+            var brands = _productData.GetBrands();
+
+            var prodViewModel = new ProductViewModel
+            {
+                Id = prod.Id,
+                Name = prod.Name,
+                ImageUrl = prod.ImageUrl,
+                Order = prod.Order,
+                Price = prod.Price,
+                BrandId = prod.BrandId ?? 0,
+                Brand = prod.Brand?.Name ?? string.Empty,
+                SectionId = prod.SectionId,
+                Section = prod.Section?.Name ?? string.Empty,
+                Sections = new SelectList(notParentSections, "Id", "Name"),
+                Brands = new SelectList(brands, "Id", "Name")
+            };
+
+            return View(prodViewModel);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult EditProduct(Product p)
+        public IActionResult EditProduct(ProductViewModel p)
         {
             if (!ModelState.IsValid)
                 return View(p);  //состояние модели
 
+            Product prod = new Product
+            {
+                Id = p.Id,
+                Name = p.Name,
+                ImageUrl = p.ImageUrl,
+                Order = p.Order,
+                Price = p.Price,
+                BrandId = p.BrandId,
+                SectionId = p.SectionId
+            };
+
             Product oldProd = _productData.GetProductById(p.Id).Map();
             if (oldProd is null) return NotFound();
 
-            _productData.UpdateProduct(p.Map());
+            _productData.UpdateProduct(prod.Map());
 
             return RedirectToAction("ProductList");
         }
