@@ -1,5 +1,5 @@
 ﻿
-@model IEnumerable<Product>
+@model IEnumerable<ProductViewModel>
 
 @{
     ViewData["Title"] = "Список товаров";
@@ -20,25 +20,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Order)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SectionId)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Section)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BrandId)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Brand)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ImageUrl)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
             </th>
             <th></th>
             <th></th>
@@ -59,10 +59,10 @@
                     @Html.DisplayFor(m => item.Order)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => item.SectionId)
+                    @Html.DisplayFor(m => item.Section)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => item.BrandId)
+                    @Html.DisplayFor(m => item.Brand)
                 </td>
                 <td>
                     <img src="~/images/home/@item.ImageUrl"  alt="@item.ImageUrl" width="50"/>

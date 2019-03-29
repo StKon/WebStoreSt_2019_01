@@ -9,6 +9,8 @@ using WebStore.Domain.Entities.Filters;
 using WebStore.Interfaces;
 using System.Reflection;
 using WebStore.Services.Map;
+using WebStore.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebStore.Areas.Admin.Controllers
 {
@@ -37,8 +39,21 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 prod = prod.Where(p => p.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase));
             }
-            
-            return View(prod);
+
+            var prodViewModel = prod.Select(p => new ProductViewModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                ImageUrl = p.ImageUrl,
+                Order = p.Order,
+                Price = p.Price,
+                BrandId = p.BrandId ?? 0,
+                Brand = p.Brand?.Name ?? string.Empty,
+                SectionId = p.SectionId,
+                Section = p.Section?.Name ?? string.Empty
+            }).AsEnumerable();
+
+            return View(prodViewModel);
         }
 
         [HttpGet]
@@ -46,19 +61,49 @@ namespace WebStore.Areas.Admin.Controllers
         {
             Product prod = _productData.GetProductById(id).Map();
             if (prod is null) return NotFound();
-            return View(prod);
+
+            var notParentSections = _productData.GetSections().Where(s => s.ParentId != null);
+            var brands = _productData.GetBrands();
+
+            var prodViewModel = new ProductViewModel
+            {
+                Id = prod.Id,
+                Name = prod.Name,
+                ImageUrl = prod.ImageUrl,
+                Order = prod.Order,
+                Price = prod.Price,
+                BrandId = prod.BrandId ?? 0,
+                Brand = prod.Brand?.Name ?? string.Empty,
+                SectionId = prod.SectionId,
+                Section = prod.Section?.Name ?? string.Empty,
+                Sections = new SelectList(notParentSections, "Id", "Name"),
+                Brands = new SelectList(brands, "Id", "Name")
+            };
+
+            return View(prodViewModel);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult EditProduct(Product p)
+        public IActionResult EditProduct(ProductViewModel p)
         {
             if (!ModelState.IsValid)
                 return View(p);  //состояние модели
 
+            Product prod = new Product
+            {
+                Id = p.Id,
+                Name = p.Name,
+                ImageUrl = p.ImageUrl,
+                Order = p.Order,
+                Price = p.Price,
+                BrandId = p.BrandId,
+                SectionId = p.SectionId
+            };
+
             Product oldProd = _productData.GetProductById(p.Id).Map();
             if (oldProd is null) return NotFound();
 
-            _productData.UpdateProduct(p.Map());
+            _productData.UpdateProduct(prod.Map());
 
             return RedirectToAction("ProductList");
         }

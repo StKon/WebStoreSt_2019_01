@@ -17,11 +17,11 @@ namespace WebStore.Services.Map
                 ImageUrl = product.ImageUrl,
                 Order = product.Order,
                 Price = product.Price,
-                Brand = product.Brand is null ? 
+                Brand = product.Brand is null ?
                 (product.BrandId is null ? null :
                   new BrandDto
                   {
-                      Id = (int) product.BrandId,
+                      Id = (int)product.BrandId,
                       Name = string.Empty
                   })
                 :
@@ -30,10 +30,10 @@ namespace WebStore.Services.Map
                       Id = product.Brand.Id,
                       Name = product.Brand.Name
                   },
-                Section = product.Section is null ? 
+                Section = product.Section is null ?
                   new SectionDto
                   {
-                      Id = (int) product.SectionId,
+                      Id = (int)product.SectionId,
                       Name = string.Empty
                   }
                 :
@@ -54,8 +54,32 @@ namespace WebStore.Services.Map
                 ImageUrl = product.ImageUrl,
                 Order = product.Order,
                 Price = product.Price,
-                BrandId = product.Brand?.Id,                  
-                SectionId = product.Section.Id
+                BrandId = product.Brand?.Id,
+                Brand = product.Brand is null ?
+                new Brand
+                {
+                    Id = 0,
+                    Name = string.Empty
+                }
+                :
+                new Brand
+                {
+                    Id = product.Brand.Id,
+                    Name = product.Brand.Name
+                },
+                SectionId = product.Section.Id,
+                Section = product.Section is null ?
+                new Section
+                {
+                    Id = 0,
+                    Name = string.Empty
+                }
+                :
+                new Section
+                {
+                    Id = product.Section.Id,
+                    Name = product.Section.Name
+                }
             };
         }
     }
