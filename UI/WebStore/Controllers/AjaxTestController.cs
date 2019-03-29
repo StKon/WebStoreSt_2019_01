@@ -31,5 +31,8 @@ namespace WebStore.Controllers
 
             return Json(new { Message = $"Возвращаем {id ?? -1} : {msg ?? "null"}", ServerTime = DateTime.Now });
         }
+
+        /// <summary> Тест signalr </summary>
+        public IActionResult SignalRTest() => View();
     }
 }

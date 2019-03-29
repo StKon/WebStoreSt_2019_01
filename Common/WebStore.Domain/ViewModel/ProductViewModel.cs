@@ -1,5 +1,6 @@
 ﻿using WebStore.Domain.Entities.Base.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebStore.ViewModels
 {
@@ -21,7 +22,7 @@ namespace WebStore.ViewModels
         /// <summary> Бренд товара </summary>
         public int? BrandId { get; set; }
 
-        /// <summary> Название бренда </summary>
+        /// <summary> Название бренда </summary> 
         public string Brand { get; set; }
 
         /// <summary> Ссылка на картинку </summary>
@@ -29,5 +30,11 @@ namespace WebStore.ViewModels
 
         /// <summary> Цена </summary>
         public decimal Price { get; set; }
+
+        /// <summary> Срисок секций </summary>
+        public SelectList Sections { get; set; }
+
+        /// <summary> Список брендов </summary>
+        public SelectList Brands { get; set; }
     }
 }

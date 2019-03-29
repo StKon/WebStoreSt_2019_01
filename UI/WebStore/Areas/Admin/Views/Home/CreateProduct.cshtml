@@ -30,6 +30,9 @@
                 <label asp-for="BrandId" class="control-label"></label>
                 <input asp-for="BrandId" class="form-control" />
                 <span asp-validation-for="BrandId" class="text-danger"></span>
+                @*<select asp-for="BrandId" asp-items="@Model.Brands" class="form-control">
+                    <option selected="selected" value="-1">Выберите бренд</option>
+                </select >*@
             </div>
             <div class="form-group">
                 <label asp-for="ImageUrl" class="control-label"></label>
